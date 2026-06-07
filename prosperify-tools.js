@@ -26,7 +26,7 @@ const PROSPERIFY_TOOLS = [
     id: "cfo-in-a-box",
     name: "CFO in a Box",
     icon: "🧾",
-    url: "prosperify-homepage.html#cfo",   // opens the trial modal on the homepage
+    url: "index.html#cfo",   // opens the trial modal on the homepage
     desc: "Upload your P&L, balance sheet, or bank statement and get a full CFO-style report in plain English — health score, red flags, strengths, and prioritised action items.",
     badge: "live",
     tier: "pro",
@@ -144,7 +144,7 @@ function renderProsperifyNav(currentId) {
   const item = t => {
     const isCurrent = t.id === currentId;
     const href = t.special === "trial"
-      ? "prosperify-homepage.html#cfo"
+      ? "index.html#cfo"
       : (t.url || "#");
     const badge = t.badge === "soon"
       ? `<span class="pd-soon">Soon</span>`
@@ -157,7 +157,7 @@ function renderProsperifyNav(currentId) {
   };
 
   nav.innerHTML = `
-    <a href="prosperify-homepage.html" class="nav-logo">Prosperify</a>
+    <a href="index.html" class="nav-logo">Prosperify</a>
     <div class="nav-right">
       <div class="tools-dd" id="toolsDd">
         <button class="tools-dd-btn" id="toolsDdBtn" aria-haspopup="true" aria-expanded="false">
@@ -168,7 +168,7 @@ function renderProsperifyNav(currentId) {
           ${liveTools.map(item).join("")}
           ${soonTools.length ? `<div class="pd-divider"></div><div class="pd-group-label">Coming soon</div>${soonTools.map(item).join("")}` : ""}
           <div class="pd-divider"></div>
-          <a href="prosperify-homepage.html#tools" class="pd-item pd-all">⊞ <span class="pd-name">See all tools</span></a>
+          <a href="index.html#tools" class="pd-item pd-all">⊞ <span class="pd-name">See all tools</span></a>
         </div>
       </div>
       <button class="theme-btn" id="themeToggle" aria-label="Toggle dark mode">☀ / ☾</button>
@@ -323,5 +323,5 @@ function mountGate(opts) {
   submit.addEventListener("click", unlock);
   email.addEventListener("keydown", e => { if (e.key === "Enter") unlock(); });
   // closing the gate without unlocking returns the visitor to the homepage
-  close.addEventListener("click", () => { window.location.href = "prosperify-homepage.html"; });
+  close.addEventListener("click", () => { window.location.href = "index.html"; });
 }

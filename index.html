@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prosperify — Financial Clarity for Business Owners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prosperify-theme.css">
+<style>
+:root {
+  --bg:#FDFAF4;--bg-alt:#F5F0E8;--bg-card:#FFFFFF;--ink:#1C1917;
+  --ink-mid:rgba(28,25,23,0.55);--ink-soft:rgba(28,25,23,0.38);--ink-faint:rgba(28,25,23,0.08);
+  --red:#DC321F;--red-soft:rgba(220,50,31,0.07);--red-mid:rgba(220,50,31,0.18);
+  --green:#2E9E5B;--amber:#D4820A;
+  --border:rgba(28,25,23,0.09);--shadow-sm:0 2px 12px rgba(28,25,23,0.06);
+  --shadow-md:0 8px 32px rgba(28,25,23,0.09);--shadow-lg:0 20px 56px rgba(28,25,23,0.13);
+  --ease:cubic-bezier(0.22,1,0.36,1);--ease-spring:cubic-bezier(0.34,1.56,0.64,1);
+}
+[data-theme="dark"] {
+  --bg:#1C1917;--bg-alt:#242019;--bg-card:#2B2520;--ink:#FFF8EB;
+  --ink-mid:rgba(255,248,235,0.52);--ink-soft:rgba(255,248,235,0.32);--ink-faint:rgba(255,248,235,0.07);
+  --border:rgba(255,248,235,0.08);--shadow-sm:0 2px 12px rgba(0,0,0,0.3);
+  --shadow-md:0 8px 32px rgba(0,0,0,0.35);--shadow-lg:0 20px 56px rgba(0,0,0,0.5);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:16px;line-height:1.65;overflow-x:hidden;transition:background .35s var(--ease),color .35s var(--ease);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(253,250,244,0.88);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--border);transition:background .35s,border-color .35s;}
+[data-theme="dark"] nav{background:rgba(28,25,23,0.88);}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;font-size:22px;color:var(--red);text-decoration:none;letter-spacing:-.5px;flex-shrink:0;}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+.nav-links a{color:var(--ink-mid);text-decoration:none;font-size:14px;font-weight:400;transition:color .2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease);}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a:hover::after{transform:scaleX(1);}
+.nav-right{display:flex;align-items:center;gap:14px;}
+.theme-toggle{width:44px;height:24px;background:var(--ink-faint);border-radius:12px;border:1px solid var(--border);cursor:pointer;position:relative;transition:background .3s;flex-shrink:0;outline:none;}
+.theme-toggle::after{content:'';position:absolute;width:17px;height:17px;border-radius:50%;background:var(--ink);top:3px;left:3px;transition:transform .35s var(--ease-spring),background .3s;}
+[data-theme="dark"] .theme-toggle::after{transform:translateX(20px);background:var(--red);}
+.nav-login{color:var(--ink-mid);font-size:14px;text-decoration:none;transition:color .2s;}
+.nav-login:hover{color:var(--ink);}
+.nav-cta{background:var(--red);color:#FFF8EB!important;font-weight:600;font-size:13px;padding:9px 20px;border-radius:7px;text-decoration:none;white-space:nowrap;transition:transform .2s var(--ease),box-shadow .2s;display:inline-flex;align-items:center;gap:6px;}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(220,50,31,0.32);}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;padding:80px 48px 60px;gap:56px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 700px 600px at 105% 45%,rgba(220,50,31,.055) 0%,transparent 60%),radial-gradient(ellipse 450px 350px at -5% 85%,rgba(180,110,30,.045) 0%,transparent 60%);pointer-events:none;}
+[data-theme="dark"] .hero-bg{background:radial-gradient(ellipse 700px 600px at 105% 45%,rgba(220,50,31,.11) 0%,transparent 60%),radial-gradient(ellipse 450px 350px at -5% 85%,rgba(180,110,30,.07) 0%,transparent 60%);}
+.hero-left{position:relative;z-index:2;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:22px;opacity:0;animation:fadeUp .7s .1s forwards;}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--red);}
+.hero-brand{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(80px,11vw,140px);line-height:.86;color:var(--red);letter-spacing:-4px;margin-bottom:26px;opacity:0;animation:fadeUp .85s .25s forwards;}
+.hero-headline{font-family:'Playfair Display',serif;font-weight:700;font-style:italic;font-size:clamp(20px,2.6vw,32px);line-height:1.3;letter-spacing:-.3px;color:var(--ink);margin-bottom:18px;opacity:0;animation:fadeUp .8s .42s forwards;max-width:540px;}
+.hero-sub{font-size:16px;color:var(--ink-mid);line-height:1.78;max-width:480px;margin-bottom:38px;opacity:0;animation:fadeUp .8s .58s forwards;}
+.hero-sub strong{color:var(--ink);font-weight:600;}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;opacity:0;animation:fadeUp .8s .72s forwards;}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#FFF8EB;font-family:'Instrument Sans',sans-serif;font-weight:600;font-size:15px;padding:14px 28px;border-radius:8px;text-decoration:none;border:none;cursor:pointer;transition:transform .2s var(--ease),box-shadow .2s;position:relative;overflow:hidden;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(220,50,31,.32);}
+.btn-primary:hover .btn-arrow{transform:translateX(4px);}
+.btn-arrow{transition:transform .2s var(--ease);}
+.btn-ghost{color:var(--ink-mid);font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .2s;padding:4px 0;border-bottom:1px solid var(--border);}
+.btn-ghost:hover{color:var(--ink);border-bottom-color:var(--ink-mid);}
+.hero-proof{display:inline-flex;align-items:center;gap:10px;margin-top:28px;padding:10px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:40px;box-shadow:var(--shadow-sm);opacity:0;animation:fadeUp .8s .88s forwards;transition:background .3s,border-color .3s;}
+.proof-avatars{display:flex;align-items:center;}
+.proof-av{width:26px;height:26px;border-radius:50%;border:2px solid var(--bg-card);display:flex;align-items:center;justify-content:center;font-size:12px;margin-left:-7px;transition:border-color .3s;}
+.proof-av:first-child{margin-left:0;}
+.proof-av:nth-child(1){background:#FFE4D6;}
+.proof-av:nth-child(2){background:#D6EEFF;}
+.proof-av:nth-child(3){background:#D6FFE6;}
+.proof-av:nth-child(4){background:#FFF3D6;}
+.proof-text{font-size:12.5px;color:var(--ink-mid);line-height:1.35;}
+.proof-text strong{color:var(--ink);font-weight:600;}
+.hero-right{position:relative;z-index:2;opacity:0;animation:slideInRight 1s .85s var(--ease) forwards;}
+@keyframes slideInRight{from{opacity:0;transform:translateX(40px) translateY(10px);}to{opacity:1;transform:translateX(0) translateY(0);}}
+.hero-card-main{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:26px;box-shadow:var(--shadow-lg);transition:background .3s,border-color .3s;position:relative;overflow:hidden;margin-bottom:14px;}
+.hero-card-main::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red) 0%,rgba(220,50,31,.15) 100%);}
+.hc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border);transition:border-color .3s;}
+.hc-biz{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:3px;}
+.hc-sub{font-size:11px;color:var(--ink-soft);letter-spacing:.3px;}
+.hc-score{font-family:'Playfair Display',serif;font-weight:900;font-size:48px;color:var(--red);line-height:1;letter-spacing:-2px;}
+.hc-score-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:var(--ink-soft);margin-top:2px;text-align:right;}
+.hc-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.hc-m{background:var(--bg-alt);border-radius:8px;padding:10px 13px;transition:background .3s;}
+.hc-m-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);margin-bottom:4px;}
+.hc-m-val{font-family:'Playfair Display',serif;font-weight:700;font-size:18px;letter-spacing:-.3px;}
+.hc-m-val.g{color:var(--green);}
+.hc-m-val.w{color:var(--amber);}
+.hc-flags{display:flex;flex-direction:column;gap:7px;}
+.hc-flag{font-size:12px;padding:9px 12px;border-radius:8px;display:flex;align-items:flex-start;gap:7px;line-height:1.45;}
+.hc-flag.r{background:rgba(220,50,31,.07);color:#B52C15;border:1px solid rgba(220,50,31,.14);}
+.hc-flag.g{background:rgba(46,158,91,.07);color:#1A6B3B;border:1px solid rgba(46,158,91,.14);}
+.hc-flag.a{background:rgba(212,130,10,.07);color:#9A5E00;border:1px solid rgba(212,130,10,.14);}
+[data-theme="dark"] .hc-flag.r{color:#FF9B85;background:rgba(220,50,31,.13);}
+[data-theme="dark"] .hc-flag.g{color:#72DEAD;background:rgba(46,158,91,.1);}
+[data-theme="dark"] .hc-flag.a{color:#FFCF6B;background:rgba(212,130,10,.1);}
+.hero-mini-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.hero-mini{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow-sm);transition:background .3s,border-color .3s;display:flex;align-items:center;gap:13px;}
+.hm-icon{width:36px;height:36px;border-radius:9px;background:var(--red-soft);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.hm-num{font-family:'Playfair Display',serif;font-weight:900;font-size:22px;color:var(--red);line-height:1;letter-spacing:-.5px;margin-bottom:2px;}
+.hm-lbl{font-size:11px;color:var(--ink-mid);line-height:1.35;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+
+/* MARQUEE */
+.marquee{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-alt);padding:14px 0;overflow:hidden;white-space:nowrap;transition:background .3s,border-color .3s;}
+.marquee-inner{display:inline-flex;animation:scroll 32s linear infinite;}
+.marquee:hover .marquee-inner{animation-play-state:paused;}
+.m-item{display:inline-flex;align-items:center;gap:9px;padding:0 24px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-soft);font-weight:500;}
+.m-dot{width:4px;height:4px;border-radius:50%;background:var(--red);opacity:.5;flex-shrink:0;}
+@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* SHARED */
+.section{padding:100px 48px;}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:16px;}
+.eyebrow::before{content:'';display:block;width:22px;height:1px;background:var(--red);}
+.s-title{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(34px,4vw,52px);letter-spacing:-1.5px;line-height:1.06;color:var(--ink);margin-bottom:14px;}
+.s-sub{font-size:16px;color:var(--ink-mid);line-height:1.75;max-width:500px;}
+
+/* VALUE STRIP */
+.value-strip{background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:88px 48px;transition:background .3s,border-color .3s;}
+.value-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.value-inner h2{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(32px,3.8vw,48px);letter-spacing:-1.5px;line-height:1.08;color:var(--ink);margin-bottom:16px;}
+.value-list{display:flex;flex-direction:column;gap:12px;}
+.value-item{display:flex;align-items:flex-start;gap:14px;padding:18px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;transition:background .3s,border-color .25s,transform .25s var(--ease);cursor:default;}
+.value-item:hover{transform:translateX(6px);border-color:var(--red-mid);}
+.vi-icon{width:40px;height:40px;border-radius:10px;background:var(--red-soft);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:background .3s;}
+.vi-title{font-weight:600;font-size:15px;color:var(--ink);margin-bottom:3px;}
+.vi-desc{font-size:13px;color:var(--ink-mid);line-height:1.58;}
+
+/* STORY */
+.story{background:var(--bg);transition:background .3s;}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+.story-pull{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:clamp(24px,2.8vw,36px);line-height:1.25;letter-spacing:-.5px;color:var(--ink);margin-bottom:26px;}
+.story-pull span{color:var(--red);}
+.story-body{font-size:15px;color:var(--ink-mid);line-height:1.82;margin-bottom:16px;}
+.story-sig{display:flex;align-items:center;gap:14px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border);transition:border-color .3s;}
+.sig-av{width:46px;height:46px;border-radius:50%;background:var(--red-soft);border:2px solid var(--red-mid);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.sig-name{font-weight:600;font-size:14px;color:var(--ink);}
+.sig-role{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+.quote-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:38px;position:relative;overflow:hidden;box-shadow:var(--shadow-md);transition:background .3s,border-color .3s;}
+.quote-card::before{content:'\201C';position:absolute;top:-36px;left:22px;font-family:'Playfair Display',serif;font-size:200px;font-weight:900;color:var(--red);opacity:.065;line-height:1;pointer-events:none;}
+.quote-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);}
+.quote-text{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(16px,1.9vw,21px);line-height:1.6;color:var(--ink);margin-bottom:22px;position:relative;z-index:1;}
+.quote-attr{font-size:12px;color:var(--ink-soft);display:flex;align-items:center;gap:8px;}
+.quote-attr::before{content:'';display:block;width:18px;height:1px;background:var(--ink-soft);}
+.quote-divider{height:1px;background:var(--border);margin:26px 0;transition:background .3s;}
+.quote-stats{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.qs-num{font-family:'Playfair Display',serif;font-weight:900;font-size:36px;letter-spacing:-1px;color:var(--red);line-height:1;margin-bottom:6px;}
+.qs-label{font-size:12px;color:var(--ink-soft);line-height:1.5;}
+
+/* STAT STRIP */
+.stat-strip{background:var(--red);padding:64px 48px;position:relative;overflow:hidden;}
+.stat-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center;position:relative;z-index:1;}
+.stat-num{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(44px,5vw,66px);letter-spacing:-2px;color:#FFF8EB;line-height:1;margin-bottom:10px;}
+.stat-label{font-size:14px;color:rgba(255,248,235,.65);line-height:1.5;}
+
+/* TOOLS */
+.tools-section{background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .3s,border-color .3s;}
+.tools-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;flex-wrap:wrap;gap:20px;}
+.tools-note{font-size:13px;color:var(--ink-soft);max-width:240px;text-align:right;line-height:1.6;}
+.tools-tabs{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap;}
+.tool-tab{font-size:12px;font-weight:500;padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:var(--bg-card);color:var(--ink-mid);cursor:pointer;transition:background .2s,border-color .2s,color .2s;font-family:'Instrument Sans',sans-serif;}
+.tool-tab.active,.tool-tab:hover{background:var(--red);border-color:var(--red);color:#FFF8EB;}
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.tool-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:30px 26px;position:relative;overflow:hidden;transition:transform .28s var(--ease),box-shadow .28s var(--ease),border-color .25s,background .3s;cursor:pointer;display:block;text-decoration:none;color:inherit;}
+.tool-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease);}
+.tool-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--red-mid);}
+.tool-card:hover::after{transform:scaleX(1);}
+.tool-card.dimmed{opacity:.6;}
+.tool-card.dimmed:hover{transform:translateY(-2px);opacity:.8;}
+.tool-card.coming-placeholder{background:transparent;border:1.5px dashed rgba(28,25,23,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:240px;cursor:default;}
+[data-theme="dark"] .tool-card.coming-placeholder{border-color:rgba(255,248,235,.1);}
+.tool-card.coming-placeholder::after{display:none;}
+.tool-card.coming-placeholder:hover{transform:none;box-shadow:none;border-color:var(--red-mid);}
+.tc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
+.tc-icon{width:48px;height:48px;border-radius:12px;background:var(--red-soft);display:flex;align-items:center;justify-content:center;font-size:22px;transition:background .3s;}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:20px;}
+.badge.live{background:rgba(220,50,31,.09);color:var(--red);border:1px solid rgba(220,50,31,.2);}
+.badge.soon{background:var(--bg-alt);color:var(--ink-soft);border:1px solid var(--border);}
+.badge.free{background:rgba(46,158,91,.09);color:var(--green);border:1px solid rgba(46,158,91,.18);}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:blink 2.2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.tc-name{font-family:'Playfair Display',serif;font-weight:700;font-size:22px;letter-spacing:-.4px;color:var(--ink);margin-bottom:10px;}
+.tc-desc{font-size:14px;color:var(--ink-mid);line-height:1.68;margin-bottom:24px;}
+.tc-link{font-size:13px;font-weight:600;color:var(--red);display:inline-flex;align-items:center;gap:5px;text-decoration:none;transition:gap .2s var(--ease);}
+.tool-card:hover .tc-link{gap:9px;}
+.placeholder-plus{width:42px;height:42px;border-radius:50%;border:1.5px dashed var(--ink-faint);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--ink-soft);transition:border-color .2s,color .2s,transform .25s var(--ease-spring);}
+.tool-card.coming-placeholder:hover .placeholder-plus{border-color:var(--red-mid);color:var(--red);transform:rotate(90deg);}
+.placeholder-label{font-size:13px;color:var(--ink-soft);}
+
+/* HOW IT WORKS */
+.how-section{background:var(--bg);transition:background .3s;}
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;margin-top:20px;}
+.steps{display:flex;flex-direction:column;}
+.step{display:flex;gap:22px;padding:28px 0;border-bottom:1px solid var(--border);transition:border-color .3s;cursor:default;}
+.step:last-child{border-bottom:none;padding-bottom:0;}
+.step-num{font-family:'Playfair Display',serif;font-weight:900;font-size:12px;color:var(--red);opacity:.45;flex-shrink:0;width:22px;padding-top:4px;letter-spacing:1px;}
+.step-icon{width:38px;height:38px;border-radius:9px;background:var(--red-soft);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;margin-top:1px;transition:background .3s,transform .25s var(--ease-spring);}
+.step:hover .step-icon{transform:scale(1.1);background:var(--red-mid);}
+.step h3{font-family:'Playfair Display',serif;font-weight:700;font-size:19px;letter-spacing:-.3px;color:var(--ink);margin-bottom:7px;}
+.step p{font-size:14px;color:var(--ink-mid);line-height:1.68;}
+.report-preview{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--shadow-md);position:relative;overflow:hidden;transition:background .3s,border-color .3s;position:sticky;top:88px;}
+.report-preview::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),rgba(220,50,31,.15));}
+.rp-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);transition:border-color .3s;}
+.rp-biz{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:3px;}
+.rp-sub{font-size:11px;color:var(--ink-soft);}
+.rp-score{font-family:'Playfair Display',serif;font-weight:900;font-size:50px;color:var(--red);line-height:1;letter-spacing:-2px;}
+.rp-score-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:var(--ink-soft);text-align:right;margin-top:3px;}
+.rp-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.rp-m{background:var(--bg-alt);border-radius:7px;padding:10px 13px;transition:background .3s;}
+.rp-m-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);margin-bottom:3px;}
+.rp-m-val{font-family:'Playfair Display',serif;font-weight:700;font-size:18px;letter-spacing:-.2px;}
+.rp-m-val.g{color:var(--green);}
+.rp-m-val.w{color:var(--amber);}
+.rp-flag{font-size:12px;padding:9px 12px;border-radius:7px;margin-bottom:7px;display:flex;align-items:flex-start;gap:7px;line-height:1.45;}
+.rp-flag:last-child{margin-bottom:0;}
+.rp-flag.r{background:rgba(220,50,31,.07);color:#B52C15;border:1px solid rgba(220,50,31,.13);}
+.rp-flag.g{background:rgba(46,158,91,.07);color:#1A6B3B;border:1px solid rgba(46,158,91,.13);}
+.rp-flag.a{background:rgba(212,130,10,.07);color:#9A5E00;border:1px solid rgba(212,130,10,.12);}
+[data-theme="dark"] .rp-flag.r{color:#FF9B85;background:rgba(220,50,31,.13);}
+[data-theme="dark"] .rp-flag.g{color:#72DEAD;background:rgba(46,158,91,.1);}
+[data-theme="dark"] .rp-flag.a{color:#FFCF6B;background:rgba(212,130,10,.1);}
+
+/* TESTIMONIALS */
+.testi-section{background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .3s,border-color .3s;}
+.testi-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;gap:20px;flex-wrap:wrap;}
+.testi-rating{font-size:14px;color:var(--ink-mid);}
+.testi-rating strong{color:var(--ink);}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.testi-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;transition:background .3s,border-color .3s,transform .25s var(--ease),box-shadow .25s;}
+.testi-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--red-mid);}
+.testi-card::before{content:'\201C';font-family:'Playfair Display',serif;font-size:72px;font-weight:900;color:var(--red);opacity:.15;line-height:1;display:block;margin-bottom:-14px;}
+.testi-stars{display:flex;gap:2px;margin-bottom:12px;color:var(--red);font-size:12px;}
+.testi-text{font-size:14px;color:var(--ink-mid);line-height:1.74;margin-bottom:22px;font-style:italic;}
+.testi-author{display:flex;align-items:center;gap:11px;padding-top:18px;border-top:1px solid var(--border);transition:border-color .3s;}
+.testi-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;border:1.5px solid var(--red-mid);flex-shrink:0;}
+.testi-av.a1{background:#FFE4D6;}
+.testi-av.a2{background:#D6EEFF;}
+.testi-av.a3{background:#D6FFE6;}
+.testi-name{font-weight:600;font-size:13px;color:var(--ink);}
+.testi-role{font-size:12px;color:var(--ink-soft);margin-top:1px;}
+
+/* PRICING */
+.pricing-section{background:var(--bg);transition:background .3s;}
+.pricing-toggle-wrap{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:48px;margin-top:8px;}
+.pricing-toggle-label{font-size:14px;color:var(--ink-mid);transition:color .2s;}
+.pricing-toggle-label.active{color:var(--ink);font-weight:500;}
+.pricing-toggle-btn{width:48px;height:26px;background:var(--red);border-radius:13px;border:none;cursor:pointer;position:relative;outline:none;}
+.pricing-toggle-btn::after{content:'';position:absolute;width:19px;height:19px;border-radius:50%;background:#fff;top:3.5px;left:4px;transition:transform .3s var(--ease-spring);}
+.pricing-toggle-btn.annual::after{transform:translateX(22px);}
+.pricing-save{font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--green);background:rgba(46,158,91,.1);border:1px solid rgba(46,158,91,.2);padding:3px 9px;border-radius:20px;}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;}
+.pricing-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:32px 28px;position:relative;transition:background .3s,border-color .3s,transform .25s var(--ease),box-shadow .25s;}
+.pricing-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+
+/* Featured — Pro */
+.pricing-card.featured{background:var(--ink);border-color:var(--ink);transform:translateY(-12px);box-shadow:var(--shadow-lg);}
+[data-theme="dark"] .pricing-card.featured{background:var(--red);border-color:var(--red);}
+.pricing-card.featured:hover{transform:translateY(-16px);}
+.pricing-card.featured .plan-name{color:rgba(255,248,235,.55);}
+.pricing-card.featured .plan-price{color:#FFF8EB;}
+.pricing-card.featured .plan-period{color:rgba(255,248,235,.4);}
+.pricing-card.featured .plan-desc{color:rgba(255,248,235,.5);border-bottom-color:rgba(255,248,235,.1);}
+.pricing-card.featured .plan-feature{color:rgba(255,248,235,.72);border-bottom-color:rgba(255,248,235,.08);}
+.pricing-card.featured .plan-feature::before{color:#FFF8EB;}
+.pricing-card.featured .plan-feature.inactive{opacity:.3;}
+
+.featured-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--red);color:#FFF8EB;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 16px;border-radius:20px;white-space:nowrap;}
+.pricing-card.featured .featured-badge{background:#FFF8EB;color:var(--ink);}
+[data-theme="dark"] .pricing-card.featured .featured-badge{background:var(--ink);color:#FFF8EB;}
+
+.plan-name{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px;}
+.plan-price{font-family:'Playfair Display',serif;font-weight:900;font-size:52px;letter-spacing:-2px;color:var(--ink);line-height:1;margin-bottom:4px;}
+.plan-period{font-size:13px;color:var(--ink-soft);margin-bottom:16px;}
+.plan-desc{font-size:14px;color:var(--ink-mid);line-height:1.62;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border);transition:border-color .3s;}
+.plan-features{display:flex;flex-direction:column;margin-bottom:28px;}
+.plan-feature{font-size:13.5px;color:var(--ink-mid);padding:11px 0;border-bottom:1px solid var(--border);transition:border-color .3s;display:flex;align-items:center;gap:9px;}
+.plan-feature:last-child{border-bottom:none;}
+.plan-feature::before{content:'✓';color:var(--red);font-weight:700;font-size:12px;flex-shrink:0;}
+.plan-feature.inactive{opacity:.38;}
+.plan-feature.inactive::before{content:'–';color:var(--ink-soft);}
+.plan-btn{display:block;width:100%;text-align:center;padding:14px;border-radius:9px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s;border:none;cursor:pointer;}
+.plan-btn.outline{border:1.5px solid var(--border);background:transparent;color:var(--ink);}
+.plan-btn.outline:hover{border-color:var(--red-mid);background:var(--red-soft);}
+.plan-btn.solid{background:var(--red);color:#FFF8EB;}
+.plan-btn.solid:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(220,50,31,.3);}
+.plan-btn.white{background:#FFF8EB;color:var(--ink);}
+[data-theme="dark"] .pricing-card.featured .plan-btn.white{background:rgba(255,248,235,.15);color:#FFF8EB;border:1px solid rgba(255,248,235,.2);}
+.plan-btn.white:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.2);}
+
+/* Pricing note */
+.pricing-note{text-align:center;margin-top:28px;font-size:13px;color:var(--ink-soft);}
+.pricing-note a{color:var(--red);text-decoration:none;}
+.pricing-note a:hover{text-decoration:underline;}
+
+/* TRUST */
+.trust-section{background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .3s,border-color .3s;}
+.trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
+.trust-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:30px;transition:background .3s,border-color .3s,transform .25s var(--ease);position:relative;overflow:hidden;}
+.trust-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease);}
+.trust-card:hover{transform:translateY(-4px);border-color:var(--red-mid);}
+.trust-card:hover::before{transform:scaleX(1);}
+.trust-icon-wrap{width:50px;height:50px;border-radius:12px;background:var(--red-soft);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;transition:background .3s;}
+.trust-card h3{font-family:'Playfair Display',serif;font-weight:700;font-size:18px;letter-spacing:-.3px;color:var(--ink);margin-bottom:10px;}
+.trust-card p{font-size:14px;color:var(--ink-mid);line-height:1.68;}
+
+/* TRIAL MODAL (email verification + report cap demo) */
+.modal-overlay{position:fixed;inset:0;z-index:600;background:rgba(28,25,23,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s var(--ease);}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-lg);width:100%;max-width:420px;overflow:hidden;transform:scale(.94) translateY(14px);transition:transform .35s var(--ease-spring);position:relative;}
+.modal-overlay.open .modal{transform:scale(1) translateY(0);}
+.modal-top{height:4px;background:linear-gradient(90deg,var(--red),rgba(220,50,31,.2));}
+.modal-close{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:8px;border:none;background:var(--bg-alt);color:var(--ink-mid);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s;z-index:2;}
+.modal-close:hover{background:var(--red-soft);color:var(--red);}
+.modal-body{padding:36px 32px 32px;}
+.modal-icon{width:52px;height:52px;border-radius:13px;background:var(--red-soft);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px;}
+.modal-title{font-family:'Playfair Display',serif;font-weight:900;font-size:26px;letter-spacing:-.8px;color:var(--ink);margin-bottom:10px;line-height:1.1;}
+.modal-sub{font-size:14px;color:var(--ink-mid);line-height:1.6;margin-bottom:24px;}
+.modal-sub strong{color:var(--ink);font-weight:600;}
+.modal-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;display:block;}
+.modal-input{width:100%;font-family:'Instrument Sans',sans-serif;font-size:15px;padding:13px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-alt);color:var(--ink);outline:none;transition:border-color .2s,background .3s;margin-bottom:8px;}
+.modal-input:focus{border-color:var(--red-mid);}
+.modal-error{font-size:12.5px;color:var(--red);min-height:18px;margin-bottom:8px;}
+.modal-btn{width:100%;text-align:center;padding:14px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:15px;font-weight:600;border:none;cursor:pointer;background:var(--red);color:#FFF8EB;transition:transform .2s,box-shadow .2s,opacity .2s;}
+.modal-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(220,50,31,.3);}
+.modal-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+.modal-code-row{display:flex;gap:9px;justify-content:space-between;margin-bottom:8px;}
+.modal-code-cell{width:100%;aspect-ratio:1;text-align:center;font-family:'Playfair Display',serif;font-weight:700;font-size:24px;border-radius:10px;border:1px solid var(--border);background:var(--bg-alt);color:var(--ink);outline:none;transition:border-color .2s;}
+.modal-code-cell:focus{border-color:var(--red);}
+.modal-hint{font-size:12.5px;color:var(--ink-soft);text-align:center;margin-top:14px;}
+.modal-hint b{color:var(--red);font-weight:600;}
+.modal-cap{display:flex;align-items:center;gap:10px;background:var(--bg-alt);border:1px solid var(--border);border-radius:11px;padding:13px 15px;margin-bottom:22px;}
+.modal-cap-icon{width:34px;height:34px;border-radius:8px;background:var(--red-soft);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.modal-cap-text{font-size:12.5px;color:var(--ink-mid);line-height:1.45;}
+.modal-cap-text b{color:var(--ink);}
+.modal-success-icon{width:60px;height:60px;border-radius:50%;background:rgba(46,158,91,.1);border:2px solid rgba(46,158,91,.3);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 20px;}
+.modal-step{display:none;}
+.modal-step.active{display:block;}
+.modal-progress{display:flex;gap:6px;margin-bottom:24px;}
+.modal-dot{height:4px;flex:1;border-radius:2px;background:var(--border);transition:background .3s;}
+.modal-dot.on{background:var(--red);}
+
+/* CHAT WIDGET */
+.chat-widget{position:fixed;bottom:28px;right:28px;z-index:500;}
+.chat-btn{width:56px;height:56px;border-radius:50%;background:var(--red);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(220,50,31,.38);transition:transform .25s var(--ease-spring),box-shadow .25s;position:relative;}
+.chat-btn:hover{transform:scale(1.1);box-shadow:0 12px 36px rgba(220,50,31,.45);}
+.chat-btn svg{transition:transform .25s var(--ease);}
+.chat-btn.open svg{transform:rotate(45deg);}
+.chat-pulse{position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:#22c55e;border:2px solid var(--bg);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.2);}}
+.chat-window{position:absolute;bottom:68px;right:0;width:340px;background:var(--bg-card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow-lg);overflow:hidden;transform:scale(.92) translateY(12px);opacity:0;pointer-events:none;transition:transform .3s var(--ease-spring),opacity .25s var(--ease);transform-origin:bottom right;}
+.chat-window.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
+.chat-header{padding:18px 20px;background:var(--red);display:flex;align-items:center;gap:12px;}
+.chat-av{width:36px;height:36px;border-radius:50%;background:rgba(255,248,235,.2);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.chat-title{font-weight:600;font-size:14px;color:#FFF8EB;}
+.chat-status{font-size:11px;color:rgba(255,248,235,.65);display:flex;align-items:center;gap:5px;margin-top:1px;}
+.chat-status::before{content:'';width:6px;height:6px;border-radius:50%;background:#22c55e;flex-shrink:0;}
+.chat-body{padding:16px;height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;}
+.chat-msg{max-width:85%;font-size:13px;line-height:1.55;padding:10px 13px;border-radius:12px;}
+.chat-msg.bot{background:var(--bg-alt);color:var(--ink);border-radius:12px 12px 12px 3px;align-self:flex-start;transition:background .3s;}
+.chat-msg.user{background:var(--red);color:#FFF8EB;border-radius:12px 12px 3px 12px;align-self:flex-end;}
+.chat-input-row{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;transition:border-color .3s;}
+.chat-input{flex:1;font-family:'Instrument Sans',sans-serif;font-size:13px;padding:9px 13px;border-radius:8px;border:1px solid var(--border);background:var(--bg-alt);color:var(--ink);outline:none;transition:border-color .2s,background .3s;}
+.chat-input:focus{border-color:var(--red-mid);}
+.chat-send{width:34px;height:34px;border-radius:8px;background:var(--red);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s,box-shadow .2s;}
+.chat-send:hover{transform:scale(1.08);box-shadow:0 4px 14px rgba(220,50,31,.3);}
+
+/* FINAL CTA */
+.final-cta{background:var(--ink);padding:128px 48px;text-align:center;position:relative;overflow:hidden;transition:background .3s;}
+[data-theme="dark"] .final-cta{background:#0E0C0A;}
+.final-cta::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(220,50,31,.13) 0%,transparent 65%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.cta-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(220,50,31,.6);margin-bottom:22px;justify-content:center;position:relative;z-index:1;}
+.cta-title{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(40px,5.5vw,70px);letter-spacing:-2.5px;line-height:1.02;color:#FFF8EB;margin-bottom:20px;position:relative;z-index:1;}
+.cta-title em{font-style:italic;color:var(--red);}
+.cta-sub{font-size:17px;color:rgba(255,248,235,.42);max-width:440px;margin:0 auto 48px;line-height:1.72;position:relative;z-index:1;}
+.cta-actions{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;position:relative;z-index:1;}
+.btn-cta-white{display:inline-flex;align-items:center;gap:8px;background:#FFF8EB;color:var(--ink);font-family:'Instrument Sans',sans-serif;font-weight:600;font-size:15px;padding:15px 30px;border-radius:9px;text-decoration:none;transition:transform .2s,box-shadow .2s;}
+.btn-cta-white:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(0,0,0,.3);}
+.btn-cta-ghost{color:rgba(255,248,235,.45);font-size:14px;text-decoration:none;border-bottom:1px solid rgba(255,248,235,.15);padding-bottom:2px;transition:color .2s,border-color .2s;}
+.btn-cta-ghost:hover{color:rgba(255,248,235,.75);border-color:rgba(255,248,235,.35);}
+
+/* FOOTER */
+footer{padding:36px 48px;border-top:1px solid var(--border);background:var(--bg);transition:background .3s,border-color .3s;}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;flex-wrap:wrap;gap:28px;}
+.footer-logo{font-family:'Playfair Display',serif;font-weight:900;font-size:21px;color:var(--red);text-decoration:none;letter-spacing:-.5px;display:block;margin-bottom:8px;}
+.footer-tagline{font-size:13px;color:var(--ink-soft);}
+.footer-nav{display:flex;gap:48px;flex-wrap:wrap;}
+.footer-col h4{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-col a{font-size:13px;color:var(--ink-mid);text-decoration:none;transition:color .2s;}
+.footer-col a:hover{color:var(--ink);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:12px;transition:border-color .3s;}
+.footer-copy{font-size:12px;color:var(--ink-soft);}
+.footer-legal{display:flex;gap:20px;list-style:none;flex-wrap:wrap;}
+.footer-legal a{font-size:12px;color:var(--ink-soft);text-decoration:none;transition:color .2s;}
+.footer-legal a:hover{color:var(--ink);}
+
+/* SCROLL REVEAL */
+.r{opacity:0;transform:translateY(26px);transition:opacity .68s var(--ease),transform .68s var(--ease);}
+.r.on{opacity:1;transform:translateY(0);}
+.r.d1{transition-delay:.1s;}
+.r.d2{transition-delay:.2s;}
+.r.d3{transition-delay:.3s;}
+.r.d4{transition-delay:.4s;}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .pricing-grid{grid-template-columns:1fr;max-width:440px;margin:0 auto;}
+  .pricing-card.featured{transform:none;}
+  .pricing-card.featured:hover{transform:translateY(-4px);}
+}
+@media(max-width:960px){
+  nav{padding:0 20px;}
+  .nav-links,.nav-login{display:none;}
+  .hero{grid-template-columns:1fr;padding:96px 20px 56px;gap:36px;min-height:auto;}
+  .hero-mini-row{display:none;}
+  .section{padding:72px 20px;}
+  .value-strip{padding:72px 20px;}
+  .value-inner{grid-template-columns:1fr;gap:40px;}
+  .story-grid{grid-template-columns:1fr;gap:40px;}
+  .stat-strip{padding:56px 20px;}
+  .stat-inner{grid-template-columns:1fr 1fr;gap:28px;}
+  .tools-grid{grid-template-columns:1fr;}
+  .tools-header{flex-direction:column;align-items:flex-start;}
+  .tools-note{text-align:left;}
+  .how-grid{grid-template-columns:1fr;gap:40px;}
+  .report-preview{position:static;}
+  .testi-grid{grid-template-columns:1fr;}
+  .trust-grid{grid-template-columns:1fr;}
+  .final-cta{padding:90px 20px;}
+  footer{padding:28px 20px;}
+  .footer-top{flex-direction:column;}
+  .footer-nav{gap:32px;}
+  .chat-window{width:300px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Prosperify</a>
+  <ul class="nav-links">
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#security">Security</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+    <a href="#" class="nav-login">Sign in</a>
+    <a href="#tools" class="nav-cta" onclick="openTrial(event)">
+      Get started free
+      <svg class="btn-arrow" width="13" height="13" viewBox="0 0 15 15" fill="none">
+        <path d="M3 7.5h9M7.5 3l4.5 4.5L7.5 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">Smart financial tools · Built for business owners</div>
+    <div class="hero-brand">Prosperify</div>
+    <h1 class="hero-headline">Professional financial tools<br>at prices that make sense</h1>
+    <p class="hero-sub">
+      Prosperify gives <strong>small business owners</strong> professional-grade financial clarity — without the professional price tag. Plain English. Every time.
+    </p>
+    <div class="hero-actions">
+      <a href="#tools" class="btn-primary">
+        Get started free
+        <svg class="btn-arrow" width="15" height="15" viewBox="0 0 15 15" fill="none">
+          <path d="M3 7.5h9M7.5 3l4.5 4.5L7.5 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="#story" class="btn-ghost">Read our story ↓</a>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-avatars">
+        <div class="proof-av">👩</div><div class="proof-av">👨</div>
+        <div class="proof-av">🧑</div><div class="proof-av">👩‍💼</div>
+      </div>
+      <div class="proof-text"><strong>2,400+ business owners</strong><br>already using Prosperify</div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-card-main">
+      <div class="hc-header">
+        <div><div class="hc-biz">Greenleaf Bakery Co.</div><div class="hc-sub">Q3 Financial Report · Prosperify</div></div>
+        <div><div class="hc-score">78</div><div class="hc-score-lbl">Health score</div></div>
+      </div>
+      <div class="hc-metrics">
+        <div class="hc-m"><div class="hc-m-lbl">Gross Margin</div><div class="hc-m-val g">62.4%</div></div>
+        <div class="hc-m"><div class="hc-m-lbl">Revenue Growth</div><div class="hc-m-val g">↑ 8.3%</div></div>
+        <div class="hc-m"><div class="hc-m-lbl">Cash Runway</div><div class="hc-m-val w">4.2 mo</div></div>
+        <div class="hc-m"><div class="hc-m-lbl">Burn Rate</div><div class="hc-m-val w">$18.4k/mo</div></div>
+      </div>
+      <div class="hc-flags">
+        <div class="hc-flag r">⚠ Cash runway below safe threshold — prioritise receivables now</div>
+        <div class="hc-flag g">✓ Gross margin outperforms food industry average by 14 points</div>
+        <div class="hc-flag a">◐ Staff costs growing 3× faster than revenue — review scheduling</div>
+      </div>
+    </div>
+    <div class="hero-mini-row">
+      <div class="hero-mini"><div class="hm-icon">⚡</div><div><div class="hm-num">60s</div><div class="hm-lbl">From upload to full report</div></div></div>
+      <div class="hero-mini"><div class="hm-icon">🔐</div><div><div class="hm-num">100%</div><div class="hm-lbl">Private — stays in your browser</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-inner">
+    <span class="m-item"><span class="m-dot"></span>Financial Health Score</span>
+    <span class="m-item"><span class="m-dot"></span>Plain English Reports</span>
+    <span class="m-item"><span class="m-dot"></span>Red Flag Detection</span>
+    <span class="m-item"><span class="m-dot"></span>Cash Flow Forecasting</span>
+    <span class="m-item"><span class="m-dot"></span>CFO-Level Insight</span>
+    <span class="m-item"><span class="m-dot"></span>Zero Jargon</span>
+    <span class="m-item"><span class="m-dot"></span>Built on Real Accounting Principles</span>
+    <span class="m-item"><span class="m-dot"></span>No Spreadsheets Required</span>
+    <span class="m-item"><span class="m-dot"></span>Powered by AI</span>
+    <span class="m-item"><span class="m-dot"></span>Bank-Grade Security</span>
+    <span class="m-item"><span class="m-dot"></span>Financial Health Score</span>
+    <span class="m-item"><span class="m-dot"></span>Plain English Reports</span>
+    <span class="m-item"><span class="m-dot"></span>Red Flag Detection</span>
+    <span class="m-item"><span class="m-dot"></span>Cash Flow Forecasting</span>
+    <span class="m-item"><span class="m-dot"></span>CFO-Level Insight</span>
+    <span class="m-item"><span class="m-dot"></span>Zero Jargon</span>
+    <span class="m-item"><span class="m-dot"></span>Built on Real Accounting Principles</span>
+    <span class="m-item"><span class="m-dot"></span>No Spreadsheets Required</span>
+    <span class="m-item"><span class="m-dot"></span>Powered by AI</span>
+    <span class="m-item"><span class="m-dot"></span>Bank-Grade Security</span>
+  </div>
+</div>
+
+<!-- VALUE STRIP -->
+<div class="value-strip">
+  <div class="value-inner">
+    <div class="r">
+      <div class="eyebrow">What Prosperify does</div>
+      <h2>Everything you need<br>to manage money</h2>
+      <p class="s-sub">Professional accounting tools without the professional price tag. See your finances clearly and plan ahead — whether you're running a bakery, an agency, or a tech startup.</p>
+    </div>
+    <div class="value-list r d1">
+      <div class="value-item"><div class="vi-icon">📊</div><div><div class="vi-title">Instant financial analysis</div><div class="vi-desc">Upload any financial document and get a full CFO-style report in under 60 seconds — health score, red flags, and clear action items.</div></div></div>
+      <div class="value-item"><div class="vi-icon">💵</div><div><div class="vi-title">Cash flow visibility</div><div class="vi-desc">Know exactly where your cash is going each month and plan ahead with confidence — no guessing, no anxiety, no spreadsheets.</div></div></div>
+      <div class="value-item"><div class="vi-icon">🎓</div><div><div class="vi-title">Built-in financial literacy</div><div class="vi-desc">Every tool explains what the numbers mean in plain English. You don't just get data — you get understanding.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- STORY -->
+<section class="story section" id="story">
+  <div class="story-grid">
+    <div class="r">
+      <div class="eyebrow">Why we built this</div>
+      <div class="story-pull">Numbers were never<br>the problem.<br><span>Understanding them was.</span></div>
+      <p class="story-body">Most small business owners are brilliant at what they do — and quietly terrified of their own finances. Not because they're bad at business, but because nobody ever made the numbers feel human.</p>
+      <p class="story-body">Financial literacy became a language only specialists spoke. Everyone else was left guessing, second-guessing, and avoiding the paperwork that could actually help them grow.</p>
+      <p class="story-body">Prosperify exists to close that gap. We take the rigour of professional financial analysis and translate it into plain English — so the insight that helps a business thrive is available to every owner, at every stage, without the cost or the jargon.</p>
+      <div class="story-sig">
+        <div class="sig-av">📈</div>
+        <div><div class="sig-name">The Prosperify Mission</div><div class="sig-role">Professional-grade clarity, built for people without a finance degree</div></div>
+      </div>
+    </div>
+    <div class="r d2">
+      <div class="quote-card">
+        <div class="quote-text">"The paperwork sat on the kitchen table for months. Ready to deal with. But the anxiety of what the numbers might say was enough to keep it untouched — until it almost became a real problem."</div>
+        <div class="quote-attr">A familiar story for far too many business owners.</div>
+        <div class="quote-divider"></div>
+        <div class="quote-stats">
+          <div><div class="qs-num">1 in 3</div><div class="qs-label">Small business owners avoid reviewing their finances regularly</div></div>
+          <div><div class="qs-num">82%</div><div class="qs-label">Of business failures are linked to poor cash flow understanding</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-inner">
+    <div class="r"><div class="stat-num">5+</div><div class="stat-label">Powerful tools — analysis, cash flow, budgeting & more</div></div>
+    <div class="r d1"><div class="stat-num">60s</div><div class="stat-label">From upload to complete financial report — no setup needed</div></div>
+    <div class="r d2"><div class="stat-num">100%</div><div class="stat-label">Private — your documents never leave your browser, ever</div></div>
+    <div class="r d3"><div class="stat-num">$0</div><div class="stat-label">To get started — your first full report is always free</div></div>
+  </div>
+</div>
+
+<!-- TOOLS -->
+<section class="tools-section section" id="tools">
+  <div class="tools-header">
+    <div>
+      <div class="eyebrow r">The toolkit</div>
+      <h2 class="s-title r d1">Tools built for real<br>business owners</h2>
+    </div>
+    <p class="tools-note r d2">Upload a document. Get the truth. No jargon. No degree required.</p>
+  </div>
+  <div class="tools-tabs r d1">
+    <button class="tool-tab active" onclick="filterTools('all',this)">All tools</button>
+    <button class="tool-tab" onclick="filterTools('live',this)">Live now</button>
+    <button class="tool-tab" onclick="filterTools('soon',this)">Coming soon</button>
+  </div>
+  <div class="tools-grid" id="toolsGrid"></div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section section" id="how">
+  <div class="eyebrow r">How it works</div>
+  <h2 class="s-title r d1">From upload to insight<br>in under 60 seconds</h2>
+  <div class="how-grid">
+    <div class="steps r d1">
+      <div class="step"><span class="step-num">01</span><div class="step-icon">📄</div><div><h3>Upload your document</h3><p>Drop in a PDF — your P&L, balance sheet, or bank statement. Everything is processed in your browser. Nothing ever leaves your device.</p></div></div>
+      <div class="step"><span class="step-num">02</span><div class="step-icon">🧠</div><div><h3>AI reads every line</h3><p>Our accountant-trained AI analyses your financials, identifies patterns, benchmarks your performance, and flags anything that needs attention.</p></div></div>
+      <div class="step"><span class="step-num">03</span><div class="step-icon">📝</div><div><h3>Read it in plain English</h3><p>No jargon. No charts to decode. Just clear, honest answers — what's working, what's not, and exactly what to do next.</p></div></div>
+      <div class="step"><span class="step-num">04</span><div class="step-icon">🚀</div><div><h3>Lead with confidence</h3><p>Walk into any meeting — with your team, your bank, your accountant — knowing exactly where your business stands.</p></div></div>
+    </div>
+    <div class="report-preview r d2">
+      <div class="rp-head">
+        <div><div class="rp-biz">Greenleaf Bakery Co.</div><div class="rp-sub">Q3 Financial Report · Prosperify</div></div>
+        <div><div class="rp-score">78</div><div class="rp-score-lbl">Health score</div></div>
+      </div>
+      <div class="rp-metrics">
+        <div class="rp-m"><div class="rp-m-lbl">Gross Margin</div><div class="rp-m-val g">62.4%</div></div>
+        <div class="rp-m"><div class="rp-m-lbl">Revenue Growth</div><div class="rp-m-val g">↑ 8.3%</div></div>
+        <div class="rp-m"><div class="rp-m-lbl">Cash Runway</div><div class="rp-m-val w">4.2 mo</div></div>
+        <div class="rp-m"><div class="rp-m-lbl">Burn Rate</div><div class="rp-m-val w">$18.4k/mo</div></div>
+      </div>
+      <div class="rp-flag r">⚠ Cash runway below 6-month safe threshold — prioritise receivables immediately</div>
+      <div class="rp-flag g">✓ Gross margin of 62% outperforms food industry average by 14 points</div>
+      <div class="rp-flag a">◐ Staff costs growing 3× faster than revenue — review scheduling this quarter</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section section" id="testimonials">
+  <div class="testi-header">
+    <div>
+      <div class="eyebrow r">Trusted by founders</div>
+      <h2 class="s-title r d1">Business owners who've<br>taken back control</h2>
+    </div>
+    <div class="r d2" style="text-align:right">
+      <div style="display:flex;gap:3px;justify-content:flex-end;margin-bottom:5px;">
+        <span style="color:var(--red);font-size:14px;">★★★★★</span>
+      </div>
+      <div class="testi-rating"><strong>4.9 / 5</strong> across 340+ reviews</div>
+    </div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card r"><div class="testi-stars">★★★★★</div><div class="testi-text">"Prosperify finally made sense of our cash flow. I now know exactly what month we gain and can plan ahead with real confidence. I wish I'd had this years ago."</div><div class="testi-author"><div class="testi-av a1">👩</div><div><div class="testi-name">Jessica Matthews</div><div class="testi-role">Owner, Local Catering Agency</div></div></div></div>
+    <div class="testi-card r d1"><div class="testi-stars">★★★★★</div><div class="testi-text">"We'd been using spreadsheets for years. Prosperify gave us insights in two minutes that we never would have found on our own. Honestly, it pays for itself."</div><div class="testi-author"><div class="testi-av a2">👨</div><div><div class="testi-name">David Thompson</div><div class="testi-role">Director, E-commerce Business</div></div></div></div>
+    <div class="testi-card r d2"><div class="testi-stars">★★★★★</div><div class="testi-text">"As a freelancer, I needed affordable tools that actually work. Prosperify gave me the clarity I needed without the intimidating accountant price tag."</div><div class="testi-author"><div class="testi-av a3">🧑</div><div><div class="testi-name">Ray Kim</div><div class="testi-role">Independent Consultant</div></div></div></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section section" id="pricing">
+  <div style="text-align:center;margin-bottom:16px;">
+    <div class="eyebrow r" style="justify-content:center;">Pricing</div>
+    <h2 class="s-title r d1" style="text-align:center;">Simple, honest pricing</h2>
+    <p class="s-sub r d2" style="margin:0 auto 12px;text-align:center;">Start with a free trial. Upgrade when you're ready. No hidden fees, ever.</p>
+  </div>
+  <div class="pricing-toggle-wrap r d2">
+    <span class="pricing-toggle-label active" id="monthlyLabel">Monthly</span>
+    <button class="pricing-toggle-btn" id="billingToggle" aria-label="Toggle billing period"></button>
+    <span class="pricing-toggle-label" id="annualLabel">Annual</span>
+    <span class="pricing-save" id="saveBadge" style="display:none;">Save 20%</span>
+  </div>
+  <div class="pricing-grid r d2">
+
+    <!-- FREE -->
+    <div class="pricing-card">
+      <div class="plan-name">Free</div>
+      <div class="plan-price">$0</div>
+      <div class="plan-period">forever</div>
+      <div class="plan-desc">Try CFO in a Box once, free. Plus permanent access to our simple financial tools — no credit card needed.</div>
+      <div class="plan-features">
+        <div class="plan-feature">One-time CFO in a Box trial</div>
+        <div class="plan-feature">Health Score Quiz (lead capture)</div>
+        <div class="plan-feature">Break-Even Calculator</div>
+        <div class="plan-feature">Burn Rate Calculator</div>
+        <div class="plan-feature inactive">Unlimited reports</div>
+        <div class="plan-feature inactive">Cash flow forecasting</div>
+        <div class="plan-feature inactive">Courses & learning hub</div>
+      </div>
+      <a href="#" class="plan-btn outline" onclick="openTrial(event)">Get started free</a>
+    </div>
+
+    <!-- PRO — Featured -->
+    <div class="pricing-card featured">
+      <div class="featured-badge">Most popular</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price" id="proPrice">$49</div>
+      <div class="plan-period" id="proPeriod">per month</div>
+      <div class="plan-desc">Start with CFO in a Box. Stay for everything else. The complete toolkit for founders who want the full picture.</div>
+      <div class="plan-features">
+        <div class="plan-feature">Unlimited CFO in a Box reports</div>
+        <div class="plan-feature">All free tools included</div>
+        <div class="plan-feature">Cash Flow Forecaster</div>
+        <div class="plan-feature">Budget Builder</div>
+        <div class="plan-feature">Funding Readiness Score</div>
+        <div class="plan-feature inactive">Courses & learning hub</div>
+        <div class="plan-feature inactive">White-label reports</div>
+      </div>
+      <a href="#" class="plan-btn white" onclick="openTrial(event)">Start Pro free →</a>
+    </div>
+
+    <!-- BUSINESS -->
+    <div class="pricing-card">
+      <div class="plan-name">Business</div>
+      <div class="plan-price" id="bizPrice">$149</div>
+      <div class="plan-period" id="bizPeriod">per month</div>
+      <div class="plan-desc">For growing teams with external stakeholders. Impress your bank, your investors, and your board — with reports that look the part.</div>
+      <div class="plan-features">
+        <div class="plan-feature">Everything in Pro</div>
+        <div class="plan-feature">White-label reports</div>
+        <div class="plan-feature">Courses & learning hub</div>
+        <div class="plan-feature">Quarterly Business Review report</div>
+        <div class="plan-feature">Accountant / advisor seat</div>
+        <div class="plan-feature">Team access (up to 5)</div>
+        <div class="plan-feature">Dedicated AI email support</div>
+      </div>
+      <a href="#" class="plan-btn solid">Get started</a>
+    </div>
+
+  </div>
+  <p class="pricing-note r d3">All plans include a 14-day free trial. No credit card required. <a href="#">Compare plans in full →</a></p>
+</section>
+
+<!-- TRUST -->
+<section class="trust-section section" id="security">
+  <div class="eyebrow r">Security & trust</div>
+  <h2 class="s-title r d1">Your financials are<br>nobody else's business</h2>
+  <p class="s-sub r d2">We built Prosperify to be the most trustworthy financial tool a small business owner can use.</p>
+  <div class="trust-grid">
+    <div class="trust-card r"><div class="trust-icon-wrap">🔐</div><h3>Documents never leave your device</h3><p>All document processing happens directly in your browser. Your financial files are never uploaded to or stored on our servers — not even temporarily.</p></div>
+    <div class="trust-card r d1"><div class="trust-icon-wrap">🛡</div><h3>Powered by Anthropic</h3><p>Prosperify uses Anthropic's Claude API, backed by SOC 2 Type II certification — the same enterprise-grade security standard trusted by leading financial institutions.</p></div>
+    <div class="trust-card r d2"><div class="trust-icon-wrap">👁</div><h3>Your data is never used for training</h3><p>Your financial information is never used to train AI models. What happens in your Prosperify session is yours, and yours alone.</p></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="cta-eyebrow">Ready when you are</div>
+  <h2 class="cta-title r">Start <em>simplifying</em><br>your finances today</h2>
+  <p class="cta-sub r d1">Try CFO in a Box free — no credit card, no accountant required. Just the truth about your finances, finally in plain English.</p>
+  <div class="cta-actions r d2">
+    <a href="#tools" class="btn-cta-white">Get started free <svg width="14" height="14" viewBox="0 0 15 15" fill="none" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M3 7.5h9M7.5 3l4.5 4.5L7.5 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="#pricing" class="btn-cta-ghost">View pricing →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="#" class="footer-logo">Prosperify</a>
+      <div class="footer-tagline">Financial clarity for every business owner.</div>
+    </div>
+    <div class="footer-nav">
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="#">CFO in a Box</a></li>
+          <li><a href="#">Health Score Quiz</a></li>
+          <li><a href="#">Break-Even Calculator</a></li>
+          <li><a href="#">Cash Flow Forecaster</a></li>
+          <li><a href="#">Budget Builder</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#story">Our Story</a></li>
+          <li><a href="#security">Security</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Courses</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Centre</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Prosperify. All rights reserved.</span>
+    <ul class="footer-legal">
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Security</a></li>
+    </ul>
+  </div>
+</footer>
+
+<!-- CHAT WIDGET -->
+<div class="chat-widget">
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-av">💬</div>
+      <div>
+        <div class="chat-title">Prosperify Support</div>
+        <div class="chat-status">Online — typically replies instantly</div>
+      </div>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="chat-msg bot">👋 Hi! I'm Prosperify's AI assistant. Ask me anything about our tools, pricing, or how to get started.</div>
+      <div class="chat-msg bot">What can I help you with today?</div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Ask a question…" autocomplete="off"/>
+      <button class="chat-send" id="chatSend" aria-label="Send">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+          <path d="M1.5 7.5h12M7.5 2l6 5.5-6 5.5" stroke="#FFF8EB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <button class="chat-btn" id="chatToggle" aria-label="Open chat">
+    <div class="chat-pulse"></div>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#FFF8EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+// THEME
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// SCROLL REVEAL
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -28px 0px' });
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+
+// BILLING TOGGLE
+const billingToggle = document.getElementById('billingToggle');
+const proPrice = document.getElementById('proPrice');
+const bizPrice = document.getElementById('bizPrice');
+const proPeriod = document.getElementById('proPeriod');
+const bizPeriod = document.getElementById('bizPeriod');
+const saveBadge = document.getElementById('saveBadge');
+const monthlyLabel = document.getElementById('monthlyLabel');
+const annualLabel = document.getElementById('annualLabel');
+let isAnnual = false;
+
+billingToggle.addEventListener('click', () => {
+  isAnnual = !isAnnual;
+  billingToggle.classList.toggle('annual', isAnnual);
+  monthlyLabel.classList.toggle('active', !isAnnual);
+  annualLabel.classList.toggle('active', isAnnual);
+  saveBadge.style.display = isAnnual ? 'inline-flex' : 'none';
+  proPrice.textContent = isAnnual ? '$39' : '$49';
+  bizPrice.textContent = isAnnual ? '$119' : '$149';
+  proPeriod.textContent = isAnnual ? 'per month, billed annually' : 'per month';
+  bizPeriod.textContent = isAnnual ? 'per month, billed annually' : 'per month';
+});
+
+// CHAT WIDGET
+const chatToggle = document.getElementById('chatToggle');
+const chatWindow = document.getElementById('chatWindow');
+const chatInput = document.getElementById('chatInput');
+const chatSend = document.getElementById('chatSend');
+const chatBody = document.getElementById('chatBody');
+let chatOpen = false;
+
+chatToggle.addEventListener('click', () => {
+  chatOpen = !chatOpen;
+  chatWindow.classList.toggle('open', chatOpen);
+  chatToggle.classList.toggle('open', chatOpen);
+  if (chatOpen) setTimeout(() => chatInput.focus(), 300);
+});
+
+
+const botReplies = {
+  default: "Great question! For detailed help on that, you can also email us at hello@prosperify.com and our team will get back to you shortly.",
+  pricing: "We offer three plans: Free (one-time trial + free tools), Pro at $49/month (unlimited CFO reports + all core tools), and Business at $149/month (everything in Pro plus white-label reports, courses, team access, and dedicated AI email support).",
+  free: "The free plan includes a one-time CFO in a Box trial plus permanent access to our free tools — Health Score Quiz, Break-Even Calculator, and Burn Rate Calculator.",
+  upload: "Just drag and drop your PDF — a P&L, balance sheet, or bank statement. Your document is processed entirely in your browser and never leaves your device.",
+  security: "Your documents never touch our servers. All processing happens in your browser. We use Anthropic's Claude API which is SOC 2 Type II certified, and your data is never used to train AI models.",
+};
+
+function getBotReply(msg) {
+  const m = msg.toLowerCase();
+  if (m.includes('pric') || m.includes('cost') || m.includes('plan')) return botReplies.pricing;
+  if (m.includes('free') || m.includes('trial')) return botReplies.free;
+  if (m.includes('upload') || m.includes('how') || m.includes('start')) return botReplies.upload;
+  if (m.includes('secur') || m.includes('privac') || m.includes('data')) return botReplies.security;
+  return botReplies.default;
+}
+
+function addMsg(text, type) {
+  const div = document.createElement('div');
+  div.className = `chat-msg ${type}`;
+  div.textContent = text;
+  chatBody.appendChild(div);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function sendMessage() {
+  const text = chatInput.value.trim();
+  if (!text) return;
+  addMsg(text, 'user');
+  chatInput.value = '';
+  setTimeout(() => addMsg(getBotReply(text), 'bot'), 700);
+}
+
+chatSend.addEventListener('click', sendMessage);
+chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+</script>
+<!-- TRIAL MODAL: email verification + report cap (FRONT-END DEMO ONLY — real caps must be enforced server-side) -->
+<div class="modal-overlay" id="trialModal">
+  <div class="modal">
+    <div class="modal-top"></div>
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div class="modal-body">
+
+      <!-- STEP 1: Email -->
+      <div class="modal-step active" id="step1">
+        <div class="modal-progress"><div class="modal-dot on"></div><div class="modal-dot"></div><div class="modal-dot"></div></div>
+        <div class="modal-icon">🧾</div>
+        <div class="modal-title">Your free CFO report</div>
+        <div class="modal-sub">Enter your email and we'll send a 6-digit code to verify it. Your free trial includes <strong>one</strong> full report.</div>
+        <div class="modal-cap">
+          <div class="modal-cap-icon">🎟</div>
+          <div class="modal-cap-text"><b>Free trial:</b> 1 report per verified email. Upgrade to Pro any time for unlimited reports.</div>
+        </div>
+        <label class="modal-label" for="emailField">Email address</label>
+        <input class="modal-input" id="emailField" type="email" placeholder="you@yourbusiness.com" autocomplete="email"/>
+        <div class="modal-error" id="emailError"></div>
+        <button class="modal-btn" id="sendCodeBtn">Send my code →</button>
+      </div>
+
+      <!-- STEP 2: Code -->
+      <div class="modal-step" id="step2">
+        <div class="modal-progress"><div class="modal-dot on"></div><div class="modal-dot on"></div><div class="modal-dot"></div></div>
+        <div class="modal-icon">📩</div>
+        <div class="modal-title">Enter your code</div>
+        <div class="modal-sub">We sent a 6-digit code to <strong id="emailEcho">your email</strong>. Enter it below to unlock your report.</div>
+        <div class="modal-code-row">
+          <input class="modal-code-cell" maxlength="1" inputmode="numeric" data-i="0"/>
+          <input class="modal-code-cell" maxlength="1" inputmode="numeric" data-i="1"/>
+          <input class="modal-code-cell" maxlength="1" inputmode="numeric" data-i="2"/>
+          <input class="modal-code-cell" maxlength="1" inputmode="numeric" data-i="3"/>
+          <input class="modal-code-cell" maxlength="1" inputmode="numeric" data-i="4"/>
+          <input class="modal-code-cell" maxlength="1" inputmode="numeric" data-i="5"/>
+        </div>
+        <div class="modal-error" id="codeError"></div>
+        <button class="modal-btn" id="verifyBtn">Verify & continue →</button>
+        <div class="modal-hint">Demo code: <b id="demoCode">000000</b> · Didn't get it? Check spam or resend.</div>
+      </div>
+
+      <!-- STEP 3: Success / cap states -->
+      <div class="modal-step" id="step3">
+        <div class="modal-progress"><div class="modal-dot on"></div><div class="modal-dot on"></div><div class="modal-dot on"></div></div>
+        <div class="modal-success-icon" id="successIcon">✓</div>
+        <div class="modal-title" id="successTitle" style="text-align:center;">You're verified!</div>
+        <div class="modal-sub" id="successSub" style="text-align:center;">Your free report is ready. Upload a P&amp;L, balance sheet, or bank statement to begin.</div>
+        <button class="modal-btn" id="successBtn">Upload my document →</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  TRIAL GATE — FRONT-END DEMONSTRATION ONLY.
+//  This shows the UX. It does NOT protect your API costs.
+//  Real enforcement (verified email, report counting, rate
+//  limits) MUST happen on your server. A client-side cap is
+//  bypassable in seconds via the browser console.
+//  localStorage is used here only to simulate "reports used".
+// ════════════════════════════════════════════════════════════
+
+const trialModal   = document.getElementById('trialModal');
+const modalClose   = document.getElementById('modalClose');
+const step1        = document.getElementById('step1');
+const step2        = document.getElementById('step2');
+const step3        = document.getElementById('step3');
+const emailField   = document.getElementById('emailField');
+const emailError   = document.getElementById('emailError');
+const sendCodeBtn  = document.getElementById('sendCodeBtn');
+const emailEcho    = document.getElementById('emailEcho');
+const codeCells    = Array.from(document.querySelectorAll('.modal-code-cell'));
+const codeError    = document.getElementById('codeError');
+const verifyBtn    = document.getElementById('verifyBtn');
+const demoCodeEl   = document.getElementById('demoCode');
+const successIcon  = document.getElementById('successIcon');
+const successTitle = document.getElementById('successTitle');
+const successSub   = document.getElementById('successSub');
+const successBtn   = document.getElementById('successBtn');
+
+const FREE_REPORT_LIMIT = 1; // demo cap
+let generatedCode = '000000';
+
+function showStep(n){
+  [step1, step2, step3].forEach((s,i)=>s.classList.toggle('active', i === n-1));
+}
+
+function reportsUsed(){
+  return parseInt(localStorage.getItem('prosperify_demo_reports') || '0', 10);
+}
+
+function openTrial(e){
+  if(e) e.preventDefault();
+  // If the (demo) free cap is already hit, jump straight to the upgrade state.
+  if(reportsUsed() >= FREE_REPORT_LIMIT){
+    showStep(3);
+    successIcon.textContent = '🔒';
+    successIcon.style.background = 'var(--red-soft)';
+    successIcon.style.borderColor = 'var(--red-mid)';
+    successTitle.textContent = "You've used your free report";
+    successSub.innerHTML = "Your one free trial report has been used. Upgrade to <strong>Pro</strong> for unlimited reports — just $49/month.";
+    successBtn.textContent = 'Upgrade to Pro →';
+  } else {
+    showStep(1);
+    emailField.value = '';
+    emailError.textContent = '';
+    codeCells.forEach(c => c.value = '');
+  }
+  trialModal.classList.add('open');
+}
+
+function closeTrial(){ trialModal.classList.remove('open'); }
+
+modalClose.addEventListener('click', closeTrial);
+trialModal.addEventListener('click', e => { if(e.target === trialModal) closeTrial(); });
+
+// Step 1 → send code
+sendCodeBtn.addEventListener('click', () => {
+  const val = emailField.value.trim();
+  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+  if(!valid){ emailError.textContent = 'Please enter a valid email address.'; return; }
+  emailError.textContent = '';
+  // DEMO: generate a code locally. In production your SERVER emails this.
+  generatedCode = String(Math.floor(100000 + Math.random()*900000));
+  demoCodeEl.textContent = generatedCode;
+  emailEcho.textContent = val;
+  showStep(2);
+  setTimeout(()=>codeCells[0].focus(), 200);
+});
+
+// Code cell auto-advance
+codeCells.forEach((cell, i) => {
+  cell.addEventListener('input', () => {
+    cell.value = cell.value.replace(/\D/g,'');
+    if(cell.value && i < codeCells.length-1) codeCells[i+1].focus();
+  });
+  cell.addEventListener('keydown', e => {
+    if(e.key === 'Backspace' && !cell.value && i > 0) codeCells[i-1].focus();
+  });
+});
+
+// Step 2 → verify
+verifyBtn.addEventListener('click', () => {
+  const entered = codeCells.map(c => c.value).join('');
+  if(entered.length < 6){ codeError.textContent = 'Enter all 6 digits.'; return; }
+  if(entered !== generatedCode){ codeError.textContent = 'That code doesn\'t match. Try again.'; return; }
+  codeError.textContent = '';
+  // DEMO: count the report locally. In production your SERVER does this.
+  localStorage.setItem('prosperify_demo_reports', String(reportsUsed() + 1));
+  showStep(3);
+});
+
+successBtn.addEventListener('click', closeTrial);
+</script>
+
+<script src="prosperify-tools.js"></script>
+<script>
+  // Build the tools grid from the shared registry so new tools appear automatically.
+  renderToolsGrid("toolsGrid");
+</script>
+</body>
+</html>
