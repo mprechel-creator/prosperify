@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>True Employee Cost Calculator — Prosperify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prosperify-theme.css">
+<style>
+/* ── TOKENS ────────────────────────────────────────── */
+:root {
+  --bg:        #FDFAF4;
+  --bg-alt:    #F5F0E8;
+  --bg-card:   #FFFFFF;
+  --ink:       #1C1917;
+  --ink-mid:   rgba(28,25,23,0.52);
+  --ink-soft:  rgba(28,25,23,0.36);
+  --ink-faint: rgba(28,25,23,0.09);
+  --red:       #DC321F;
+  --red-soft:  rgba(220,50,31,0.07);
+  --border:    rgba(28,25,23,0.09);
+  --green:     #1E6B3C;
+  --amber:     #A0620A;
+  --ease:      cubic-bezier(0.22,1,0.36,1);
+}
+[data-theme="dark"] {
+  --bg:        #1C1917;
+  --bg-alt:    #242019;
+  --bg-card:   #2B2520;
+  --ink:       #FFF8EB;
+  --ink-mid:   rgba(255,248,235,0.52);
+  --ink-soft:  rgba(255,248,235,0.32);
+  --ink-faint: rgba(255,248,235,0.08);
+  --border:    rgba(255,248,235,0.08);
+}
+
+/* ── RESET ─────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Instrument Sans',sans-serif;
+  background:var(--bg); color:var(--ink);
+  min-height:100vh;
+  transition:background .3s var(--ease),color .3s var(--ease);
+}
+
+/* ── NAV ───────────────────────────────────────────── */
+nav{
+  position:sticky; top:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; height:60px;
+  background:rgba(253,250,244,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  transition:background .3s;
+}
+[data-theme="dark"] nav{background:rgba(28,25,23,0.92)}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-weight:900; font-size:22px;
+  color:var(--red); text-decoration:none; letter-spacing:-0.5px;
+}
+.nav-back{
+  display:flex; align-items:center; gap:6px;
+  font-size:13px; font-weight:500; color:var(--ink-mid);
+  text-decoration:none; transition:color .2s;
+}
+.nav-back:hover{color:var(--red)}
+.nav-back svg{width:14px;height:14px}
+.nav-right{display:flex;align-items:center;gap:16px}
+.theme-btn{
+  background:none; border:1px solid var(--border);
+  border-radius:20px; padding:5px 12px;
+  font-size:12px; color:var(--ink-mid);
+  cursor:pointer; transition:all .2s;
+}
+.theme-btn:hover{border-color:var(--red);color:var(--red)}
+.free-badge{
+  background:var(--red-soft); color:var(--red);
+  border:1px solid rgba(220,50,31,0.2);
+  border-radius:20px; padding:4px 10px;
+  font-size:11px; font-weight:600;
+  letter-spacing:.04em; text-transform:uppercase;
+}
+
+/* ── PAGE HEADER ───────────────────────────────────── */
+.page-header{
+  max-width:780px; margin:0 auto;
+  padding:52px 24px 36px;
+  text-align:center;
+}
+.page-eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--red); margin-bottom:16px; font-weight:600;
+}
+.page-eyebrow::before,.page-eyebrow::after{
+  content:''; display:block; width:24px; height:1px; background:var(--red);
+}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,5vw,52px);
+  font-weight:900; letter-spacing:-1.5px; line-height:1.06;
+  margin-bottom:14px;
+}
+h1 em{font-style:italic; color:var(--red)}
+.page-sub{
+  font-size:16px; color:var(--ink-mid); line-height:1.65; max-width:520px; margin:0 auto;
+}
+
+/* ── MAIN CONTAINER ────────────────────────────────── */
+.container{max-width:780px; margin:0 auto; padding:0 24px 80px}
+
+/* ── CARDS ─────────────────────────────────────────── */
+.card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:28px;
+  margin-bottom:16px;
+  box-shadow:0 2px 16px rgba(28,25,23,0.05);
+}
+[data-theme="dark"] .card{box-shadow:0 2px 16px rgba(0,0,0,0.2)}
+
+.card-label{
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--ink-soft); font-weight:600;
+  margin-bottom:20px; padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+
+/* ── INPUTS ────────────────────────────────────────── */
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+.full{grid-column:1/-1}
+.field label{
+  display:block; font-size:12px; font-weight:600;
+  margin-bottom:6px; letter-spacing:.02em;
+}
+.field label .hint{font-weight:400; color:var(--ink-soft); margin-left:4px}
+.input-wrap{position:relative; display:flex; align-items:center}
+.pre,.suf{
+  position:absolute; font-family:monospace; font-size:14px;
+  color:var(--ink-soft); pointer-events:none;
+}
+.pre{left:12px} .suf{right:12px}
+input[type=number]{
+  width:100%; padding:11px 38px 11px 26px;
+  font-family:monospace; font-size:15px;
+  border:1.5px solid var(--border); border-radius:10px;
+  background:var(--bg); color:var(--ink);
+  outline:none; transition:border-color .15s;
+  -moz-appearance:textfield;
+}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+input[type=number]:focus{border-color:var(--red)}
+select{
+  width:100%; padding:11px 14px;
+  font-family:'Instrument Sans',sans-serif; font-size:14px;
+  border:1.5px solid var(--border); border-radius:10px;
+  background:var(--bg); color:var(--ink);
+  outline:none; cursor:pointer; transition:border-color .15s;
+}
+select:focus{border-color:var(--red)}
+
+.seg{
+  display:flex; border:1.5px solid var(--border);
+  border-radius:10px; overflow:hidden;
+}
+.seg-btn{
+  flex:1; padding:10px 8px;
+  font-family:'Instrument Sans',sans-serif;
+  font-size:12px; font-weight:600;
+  border:none; border-right:1px solid var(--border);
+  background:var(--bg); color:var(--ink-soft);
+  cursor:pointer; transition:all .15s;
+}
+.seg-btn:last-child{border-right:none}
+.seg-btn.on{background:var(--ink); color:var(--bg)}
+[data-theme="dark"] .seg-btn.on{background:var(--ink); color:#1C1917}
+
+.wcb-note{
+  font-size:11px; color:var(--ink-soft);
+  margin-top:7px; line-height:1.65;
+}
+.wcb-note a{color:var(--red); text-decoration:none; font-weight:600}
+.wcb-note a:hover{text-decoration:underline}
+
+.eht-row{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px}
+
+/* ── PERIOD TABS ───────────────────────────────────── */
+.period-tabs{display:flex; margin-bottom:16px}
+.period-tab{
+  padding:8px 20px;
+  font-family:monospace; font-size:11px;
+  letter-spacing:.12em; text-transform:uppercase;
+  border:1.5px solid var(--border);
+  border-right:none;
+  background:var(--bg); color:var(--ink-soft);
+  cursor:pointer; transition:all .15s;
+}
+.period-tab:last-child{border-right:1.5px solid var(--border); border-radius:0 8px 8px 0}
+.period-tab:first-child{border-radius:8px 0 0 8px}
+.period-tab.on{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+[data-theme="dark"] .period-tab.on{color:#1C1917}
+
+/* ── HERO RESULT ───────────────────────────────────── */
+.hero{
+  background:var(--ink); color:var(--bg);
+  border-radius:16px; padding:32px 28px;
+  margin-bottom:16px; position:relative; overflow:hidden;
+}
+.hero::before{
+  content:''; position:absolute;
+  width:240px; height:240px; border-radius:50%;
+  background:rgba(220,50,31,0.12);
+  top:-80px; right:-60px; pointer-events:none;
+}
+.hero-eye{
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(255,255,255,0.4); margin-bottom:8px; font-weight:600;
+}
+.hero-amt{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(44px,8vw,68px);
+  font-weight:900; letter-spacing:-2px; line-height:1;
+}
+.hero-period{margin-top:8px; font-size:14px; color:rgba(255,255,255,0.45)}
+.hero-markup{
+  margin-top:6px; font-family:monospace;
+  font-size:13px; color:#e87a60; font-weight:600;
+}
+
+/* ── BREAKDOWN ─────────────────────────────────────── */
+.bd-row{
+  display:flex; justify-content:space-between;
+  align-items:flex-start; padding:13px 0;
+  border-bottom:1px solid var(--border); gap:14px;
+}
+.bd-row:last-child{border-bottom:none}
+.bd-left{flex:1}
+.bd-name{font-size:13px; font-weight:500}
+.bd-sub{font-size:11px; color:var(--ink-soft); margin-top:2px; line-height:1.5}
+.bd-bar{height:4px; background:var(--ink-faint); border-radius:2px; margin-top:6px; overflow:hidden}
+.bd-fill{height:100%; border-radius:2px; transition:width .4s var(--ease)}
+.bd-amt{font-family:monospace; font-size:13px; font-weight:500; white-space:nowrap; padding-top:2px}
+.bd-total{
+  display:flex; justify-content:space-between; align-items:center;
+  padding-top:16px; margin-top:4px;
+}
+.bd-total-label{font-size:15px; font-weight:700}
+.bd-total-amt{font-family:monospace; font-size:18px; font-weight:700; color:var(--red)}
+
+/* ── DISCLAIMER ────────────────────────────────────── */
+.disclaimer{
+  font-size:11px; color:var(--ink-soft); line-height:1.75;
+  padding:16px 18px;
+  border:1px dashed var(--border); border-radius:12px;
+  margin-top:8px;
+}
+.disclaimer strong{color:var(--ink-mid)}
+
+/* ── RESPONSIVE ────────────────────────────────────── */
+@media(max-width:540px){
+  .grid-2{grid-template-columns:1fr}
+  .full{grid-column:1}
+  nav{padding:0 20px}
+  .page-header{padding:36px 16px 24px}
+  .container{padding:0 16px 60px}
+  .card{padding:20px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- SHARED NAV -->
+<nav id="prosperify-nav"></nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-eyebrow">Free Tool · Canada · 2026</div>
+  <h1>What does this employee <em>really</em> cost?</h1>
+  <p class="page-sub">See the true all-in employer cost — CPP, CPP2, EI, vacation, stat holidays, WCB, and provincial levies. All 2026 rates.</p>
+</div>
+
+<!-- EMAIL GATE -->
+<div id="gate"></div>
+
+<!-- MAIN -->
+<div class="container" id="app"></div>
+
+<script>
+// ── 2026 CRA RATES ─────────────────────────────────────────────
+const CPP_RATE      = 0.0595;
+const CPP_YMPE      = 74600;
+const CPP_EXEMPTION = 3500;
+const CPP_MAX       = 4230.45;
+const CPP2_RATE     = 0.04;
+const CPP2_YMPE     = 74600;
+const CPP2_YAMPE    = 85000;
+const CPP2_MAX      = 416.00;
+const WORK_HRS      = 2000;
+const EI_RATE       = { QC: 0.0182, def: 0.0228 };
+const EI_MAX_INS    = 68900;
+const EI_MAX        = { QC: 1253.98, def: 1572.30 };
+
+// ── PROVINCES ──────────────────────────────────────────────────
+const PROVINCES = {
+  BC:{ name:"British Columbia",   statDays:10, eht:{ threshold:1000000, rate:0.0195, label:"BC EHT" },     wcb:{ name:"WorkSafeBC",      url:"https://www.worksafebc.com/en/insurance/get-coverage/rate-classification" }, ei:"def" },
+  AB:{ name:"Alberta",            statDays:9,  eht:null,                                                   wcb:{ name:"WCB Alberta",      url:"https://www.wcb.ab.ca/employers/rates-and-experience-rating/industry-rates.html" }, ei:"def" },
+  SK:{ name:"Saskatchewan",       statDays:10, eht:null,                                                   wcb:{ name:"WCB Saskatchewan", url:"https://www.wcbsask.com/employers/rate-setting-program/" }, ei:"def" },
+  MB:{ name:"Manitoba",           statDays:8,  eht:{ threshold:2500000, rate:0.0215, label:"MB HE Levy" },     wcb:{ name:"WCB Manitoba",     url:"https://www.wcb.mb.ca/employers/premiums-and-assessments/rates/" }, ei:"def" },
+  ON:{ name:"Ontario",            statDays:9,  eht:{ threshold:1000000, rate:0.0195, label:"ON EHT" },     wcb:{ name:"WSIB Ontario",     url:"https://www.wsib.ca/en/businesses/premiums/premium-rates" }, ei:"def" },
+  QC:{ name:"Quebec",             statDays:8,  eht:{ threshold:0,       rate:0.0165, label:"QC HSF" },     wcb:{ name:"CNESST",           url:"https://www.cnesst.gouv.qc.ca/en/prevention-and-safety/rates-and-contributions" }, ei:"QC" },
+  NB:{ name:"New Brunswick",      statDays:7,  eht:null,                                                   wcb:{ name:"WorkSafe NB",      url:"https://www.worksafenb.ca/employers/rates/" }, ei:"def" },
+  NS:{ name:"Nova Scotia",        statDays:6,  eht:null,                                                   wcb:{ name:"WCB Nova Scotia",  url:"https://www.wcb.ns.ca/Employers/Premiums_and_Rates.aspx" }, ei:"def" },
+  PE:{ name:"Prince Edward Island",statDays:7, eht:null,                                                   wcb:{ name:"WCB PEI",          url:"https://www.wcb.pe.ca/employers/rates/" }, ei:"def" },
+  NL:{ name:"Newfoundland & Labrador",statDays:6,eht:null,                                                 wcb:{ name:"WorkplaceNL",      url:"https://workplacenl.ca/employers/rates/" }, ei:"def" },
+  NT:{ name:"Northwest Territories",statDays:10,eht:null,                                                  wcb:{ name:"WSCC NWT",         url:"https://www.wscc.nt.ca/employers/assessments-and-rates" }, ei:"def" },
+  NU:{ name:"Nunavut",            statDays:9,  eht:null,                                                   wcb:{ name:"WSCC Nunavut",     url:"https://www.wscc.nu.ca/employers/assessments-and-rates" }, ei:"def" },
+  YT:{ name:"Yukon",              statDays:10, eht:null,                                                   wcb:{ name:"WCB Yukon",        url:"https://wcb.yk.ca/rates" }, ei:"def" },
+};
+
+const PERIOD_MULT   = { hour:1, week:40, month:173.33, year:2080 };
+const PERIOD_LABELS = { hour:"per hour", week:"per week (40 hrs)", month:"per month (173.3 hrs)", year:"per year (2,080 hrs)" };
+
+// ── STATE ──────────────────────────────────────────────────────
+let state = { wage:"25", wsRate:"1.85", vacation:4, province:"BC", period:"hour", showEHT:true };
+
+const fmt = (n,d=2) => "$" + n.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g,",");
+
+// ── CALCULATE ──────────────────────────────────────────────────
+function calc() {
+  const w   = parseFloat(state.wage)   || 0;
+  const wsr = parseFloat(state.wsRate) || 0;
+  const p   = PROVINCES[state.province];
+  const mul = PERIOD_MULT[state.period];
+  const ann = w * WORK_HRS;
+  const ann2080 = w * 2080;
+
+  const annCPP  = ann > CPP_EXEMPTION ? Math.min((Math.min(ann,CPP_YMPE)-CPP_EXEMPTION)*CPP_RATE, CPP_MAX) : 0;
+  const cppHr   = annCPP / WORK_HRS;
+
+  const cpp2Elig = ann > CPP2_YMPE;
+  const cpp2Band = cpp2Elig ? Math.min(ann,CPP2_YAMPE) - CPP2_YMPE : 0;
+  const cpp2Hr   = Math.min(cpp2Band * CPP2_RATE, CPP2_MAX) / WORK_HRS;
+
+  const eiKey    = p.ei;
+  const eiHr     = Math.min(ann * EI_RATE[eiKey], EI_MAX[eiKey]) / WORK_HRS;
+
+  const vacHr    = w * (state.vacation / 100);
+  const statHr   = w * (p.statDays * 8 / WORK_HRS);
+  const wsHr     = w * (wsr / 100);
+
+  let ehtHr = 0;
+  let ehtUnder = true;
+  if (state.showEHT && p.eht) {
+    ehtUnder = ann2080 <= p.eht.threshold;
+    if (!ehtUnder) ehtHr = ((ann2080 - p.eht.threshold) * p.eht.rate) / 2080;
+  }
+
+  const total   = w + cppHr + cpp2Hr + eiHr + vacHr + statHr + wsHr + ehtHr;
+  const markup  = w > 0 ? ((total - w) / w) * 100 : 0;
+
+  const rows = [
+    { label:"Base Wage",          sub:`${fmt(w)}/hr`,                                                                                 val:w*mul,     pct:w/total,     color:"#1C1917" },
+    { label:"CPP Employer",       sub:`5.95% · YMPE $74,600 · max $4,230.45/yr · 2026`,                                             val:cppHr*mul, pct:cppHr/total, color:"#1E6B3C" },
+    { label:"CPP2 Employer",      sub: cpp2Elig ? `4% on earnings $74,600–$85,000 · max $416/yr · 2026` : `Not triggered — annual earnings below $74,600 at ${WORK_HRS} hrs/yr`, val:cpp2Hr*mul, pct:cpp2Hr/total, color:"#1E6B3C", dim:!cpp2Elig },
+    { label:"EI Employer",        sub: eiKey==="QC" ? `1.82% (Quebec) · max insurable $68,900 · max $1,253.98/yr · 2026` : `2.28% · max insurable $68,900 · max $1,572.30/yr · 2026`, val:eiHr*mul, pct:eiHr/total, color:"#1E6B3C" },
+    { label:"Vacation Pay",       sub: state.vacation===0 ? "Excluded / salary inclusive" : `${state.vacation}% of gross wages`,   val:vacHr*mul, pct:vacHr/total, color:"#A0620A" },
+    { label:`Stat Holidays (${p.statDays} days)`, sub:`${p.statDays} paid statutory holidays · ${p.statDays*8} hrs/yr · ${p.name}`, val:statHr*mul, pct:statHr/total, color:"#A0620A" },
+    { label:`${p.wcb.name}`,      sub:`${wsr.toFixed(2)}% of gross payroll`,                                                        val:wsHr*mul,  pct:wsHr/total,  color:"#C86B2F" },
+  ];
+
+  if (p.eht) {
+    rows.push({
+      label: p.eht.label,
+      sub: !state.showEHT ? "Toggled off"
+         : p.eht.threshold === 0 ? `${(p.eht.rate*100).toFixed(2)}% of total payroll — no exemption (rate for payroll ≤ $1M; varies by sector)`
+         : ehtUnder ? `Annual payroll (${fmt(ann2080,0)}) under ${fmt(p.eht.threshold,0)} threshold — $0 owing`
+         : `${(p.eht.rate*100).toFixed(2)}% on payroll above ${fmt(p.eht.threshold,0)}`,
+      val: ehtHr*mul, pct: ehtHr/total,
+      color: (!state.showEHT||ehtUnder) ? "#aaa" : "#DC321F",
+      dim: !state.showEHT || ehtUnder,
+    });
+  }
+
+  return { w, wsr, p, mul, total, markup, rows, ann, ann2080, ehtUnder, cpp2Elig };
+}
+
+// ── RENDER ─────────────────────────────────────────────────────
+function render() {
+  const { w, wsr, p, mul, total, markup, rows, ann2080, ehtUnder, cpp2Elig } = calc();
+  const app = document.getElementById('app');
+
+  app.innerHTML = `
+
+  <!-- INPUTS -->
+  <div class="card">
+    <div class="card-label">Employee & Business Details</div>
+    <div class="grid-2">
+
+      <!-- Province -->
+      <div class="field full">
+        <label>Province / Territory</label>
+        <select id="province" onchange="set('province',this.value)">
+          ${Object.entries(PROVINCES).map(([k,v])=>`<option value="${k}"${state.province===k?' selected':''}>${v.name}</option>`).join('')}
+        </select>
+      </div>
+
+      <!-- Wage -->
+      <div class="field">
+        <label>Hourly Wage</label>
+        <div class="input-wrap">
+          <span class="pre">$</span>
+          <input type="number" id="wage" value="${state.wage}" min="0" step="0.25" oninput="set('wage',this.value)" />
+          <span class="suf">/hr</span>
+        </div>
+      </div>
+
+      <!-- WCB -->
+      <div class="field">
+        <label>${p.wcb.name} Rate <span class="hint">% of payroll</span></label>
+        <div class="input-wrap">
+          <input type="number" id="wsRate" value="${state.wsRate}" min="0" step="0.01" style="padding-left:12px;padding-right:30px" oninput="set('wsRate',this.value)" />
+          <span class="suf">%</span>
+        </div>
+        <div class="wcb-note">
+          Not sure of your rate? <a href="${p.wcb.url}" target="_blank" rel="noopener">Look it up at ${p.wcb.name} →</a>
+        </div>
+      </div>
+
+      <!-- Vacation -->
+      <div class="field full">
+        <label>Vacation Pay</label>
+        <div class="seg">
+          ${[{v:4,l:"4% (Yr 1–4)"},{v:6,l:"6% (Yr 5+)"},{v:0,l:"None / incl."}].map(o=>`
+            <button class="seg-btn${state.vacation===o.v?' on':''}" onclick="set('vacation',${o.v})">${o.l}</button>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- EHT (only for provinces that have it) -->
+      ${p.eht ? `
+      <div class="field full">
+        <div class="eht-row">
+          <label style="margin-bottom:0">${p.eht.label} <span class="hint">${p.eht.threshold>0?`above ${fmt(p.eht.threshold,0)} payroll`:'applies to all payroll'}</span></label>
+          <div class="seg" style="width:auto">
+            <button class="seg-btn${state.showEHT?' on':''}" style="padding:8px 16px" onclick="set('showEHT',true)">Include</button>
+            <button class="seg-btn${!state.showEHT?' on':''}" style="padding:8px 16px" onclick="set('showEHT',false)">Exclude</button>
+          </div>
+        </div>
+      </div>` : ''}
+
+    </div>
+  </div>
+
+  <!-- PERIOD TABS -->
+  <div class="period-tabs">
+    ${['hour','week','month','year'].map((p,i,a)=>`
+      <button class="period-tab${state.period===p?' on':''}" onclick="set('period','${p}')" style="${i===0?'border-radius:8px 0 0 8px':''}${i===a.length-1?'border-radius:0 8px 8px 0':''}">
+        ${p.charAt(0).toUpperCase()+p.slice(1)}
+      </button>`).join('')}
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eye">True All-In Employer Cost</div>
+    <div class="hero-amt">${fmt(total*mul)}</div>
+    <div class="hero-period">${PERIOD_LABELS[state.period]}</div>
+    <div class="hero-markup">+${markup.toFixed(1)}% above base wage</div>
+  </div>
+
+  <!-- BREAKDOWN -->
+  <div class="card">
+    <div class="card-label">Cost Breakdown</div>
+    ${rows.map(r => `
+      <div class="bd-row">
+        <div class="bd-left" style="opacity:${r.dim?0.4:1}">
+          <div class="bd-name">${r.label}</div>
+          <div class="bd-sub">${r.sub}</div>
+          <div class="bd-bar"><div class="bd-fill" style="width:${((r.pct||0)*100).toFixed(1)}%;background:${r.color}"></div></div>
+        </div>
+        <div class="bd-amt" style="opacity:${r.dim?0.4:1}">${fmt(r.val)}</div>
+      </div>`).join('')}
+    <div class="bd-total">
+      <div class="bd-total-label">Total True Cost</div>
+      <div class="bd-total-amt">${fmt(total*mul)}</div>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <strong>2026 rates (verified):</strong> CPP 5.95% (YMPE $74,600; basic exemption $3,500; employer max $4,230.45).
+    CPP2 4% on earnings $74,600–$85,000 (employer max $416) — modelled at ${WORK_HRS} hrs/yr.
+    EI employer 2.28% (Quebec 1.82%); max insurable $68,900; max employer $1,572.30 ($1,253.98 Quebec).
+    Stat holiday counts are provincial minimums under employment standards legislation.
+    WCB/WorkSafe rates vary by industry classification — verify with your provincial insurer.
+    Payroll-tax thresholds: BC & ON exempt below $1M; MB exempt below $2.5M; QC HSF has no exemption (1.65% for payroll ≤ $1M, rising up to 4.26%, and reduced to 1.25% for primary/manufacturing). Above the exemption, provinces use graduated "notch" rates not fully modelled here — for single-employee estimates the payroll-tax line is effectively $0 except in Quebec. Consult a CPA or payroll professional for formal compliance.
+  </div>
+  `;
+}
+
+// ── STATE UPDATER ───────────────────────────────────────────────
+function set(key, val) {
+  if (key==='vacation') val = parseInt(val);
+  if (key==='showEHT') val = Boolean(val);
+  state[key] = val;
+  render();
+}
+
+// ── INIT ────────────────────────────────────────────────────────
+render();
+</script>
+<script src="prosperify-tools.js"></script>
+<script>
+  renderProsperifyNav("employee-cost");
+  // Free tool → show the shared email-capture gate before revealing results.
+  mountGate({ tool: "True Employee Cost Calculator", onUnlock: () => {} });
+</script>
+</body>
+</html>

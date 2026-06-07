@@ -1,0 +1,197 @@
+/* ============================================================================
+   PROSPERIFY — SHARED DESIGN SYSTEM
+   ----------------------------------------------------------------------------
+   One stylesheet, linked by every page. Change a colour or font here and it
+   updates everywhere. New tools inherit the whole look for free.
+   ============================================================================ */
+
+/* ── DESIGN TOKENS ────────────────────────────────────────────────────────── */
+:root {
+  --bg:#FDFAF4; --bg-alt:#F5F0E8; --bg-card:#FFFFFF;
+  --ink:#1C1917; --ink-mid:rgba(28,25,23,0.52); --ink-soft:rgba(28,25,23,0.36); --ink-faint:rgba(28,25,23,0.09);
+  --red:#DC321F; --red-soft:rgba(220,50,31,0.07); --red-mid:rgba(220,50,31,0.18);
+  --green:#1E6B3C; --amber:#A0620A; --blue:#4A6FA0;
+  --border:rgba(28,25,23,0.09);
+  --shadow-sm:0 2px 12px rgba(28,25,23,0.06);
+  --shadow-md:0 8px 32px rgba(28,25,23,0.09);
+  --shadow-lg:0 20px 56px rgba(28,25,23,0.13);
+  --ease:cubic-bezier(0.22,1,0.36,1);
+  --ease-spring:cubic-bezier(0.34,1.56,0.64,1);
+}
+[data-theme="dark"] {
+  --bg:#1C1917; --bg-alt:#242019; --bg-card:#2B2520;
+  --ink:#FFF8EB; --ink-mid:rgba(255,248,235,0.52); --ink-soft:rgba(255,248,235,0.32); --ink-faint:rgba(255,248,235,0.08);
+  --border:rgba(255,248,235,0.08);
+  --shadow-sm:0 2px 12px rgba(0,0,0,0.3);
+  --shadow-md:0 8px 32px rgba(0,0,0,0.35);
+  --shadow-lg:0 20px 56px rgba(0,0,0,0.5);
+}
+
+/* ── RESET ────────────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Instrument Sans',sans-serif;
+  background:var(--bg); color:var(--ink);
+  min-height:100vh; line-height:1.65;
+  transition:background .3s var(--ease),color .3s var(--ease);
+}
+
+/* ── SHARED NAV + TOOLS DROPDOWN ──────────────────────────────────────────── */
+nav#prosperify-nav{
+  position:sticky; top:0; z-index:300;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; height:60px;
+  background:rgba(253,250,244,0.92);
+  backdrop-filter:blur(16px) saturate(1.4); -webkit-backdrop-filter:blur(16px) saturate(1.4);
+  border-bottom:1px solid var(--border);
+  transition:background .3s,border-color .3s;
+}
+[data-theme="dark"] nav#prosperify-nav{background:rgba(28,25,23,0.92)}
+nav#prosperify-nav .nav-logo{
+  font-family:'Playfair Display',serif; font-weight:900; font-size:22px;
+  color:var(--red); text-decoration:none; letter-spacing:-0.5px; flex-shrink:0;
+}
+nav#prosperify-nav .nav-right{display:flex; align-items:center; gap:14px}
+
+.tools-dd{position:relative}
+.tools-dd-btn{
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:'Instrument Sans',sans-serif; font-size:14px; font-weight:500;
+  color:var(--ink-mid); background:none; border:1px solid var(--border);
+  border-radius:8px; padding:7px 14px; cursor:pointer; transition:all .2s;
+}
+.tools-dd-btn:hover{color:var(--ink); border-color:var(--ink-mid)}
+.dd-caret{font-size:10px; transition:transform .25s var(--ease)}
+.tools-dd.open .dd-caret{transform:rotate(180deg)}
+.tools-dd.open .tools-dd-btn{color:var(--ink); border-color:var(--red)}
+
+.tools-dd-menu{
+  position:absolute; top:calc(100% + 8px); right:0;
+  width:330px; max-height:74vh; overflow-y:auto;
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:14px; box-shadow:var(--shadow-lg);
+  padding:8px; opacity:0; visibility:hidden;
+  transform:translateY(-8px) scale(0.98); transform-origin:top right;
+  transition:opacity .2s var(--ease),transform .2s var(--ease),visibility .2s;
+}
+.tools-dd.open .tools-dd-menu{opacity:1; visibility:visible; transform:translateY(0) scale(1)}
+.pd-group-label{
+  font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-soft); font-weight:700; padding:8px 12px 5px;
+}
+.pd-item{
+  display:flex; align-items:center; gap:11px;
+  padding:9px 12px; border-radius:9px; text-decoration:none;
+  color:var(--ink); transition:background .15s;
+}
+.pd-item:hover{background:var(--bg-alt)}
+.pd-item.current{background:var(--red-soft)}
+.pd-item.current .pd-name{color:var(--red); font-weight:600}
+.pd-item[aria-disabled="true"]{opacity:.5}
+.pd-ico{font-size:17px; width:22px; text-align:center; flex-shrink:0}
+.pd-name{font-size:13.5px; font-weight:500; flex:1; line-height:1.3}
+.pd-soon,.pd-free{
+  font-size:9px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  padding:2px 7px; border-radius:10px; flex-shrink:0;
+}
+.pd-soon{background:var(--bg-alt); color:var(--ink-soft); border:1px solid var(--border)}
+.pd-free{background:rgba(30,107,60,.09); color:var(--green); border:1px solid rgba(30,107,60,.18)}
+.pd-divider{height:1px; background:var(--border); margin:6px 8px}
+.pd-all .pd-name{color:var(--ink-mid); font-weight:600}
+
+.theme-btn{
+  background:none; border:1px solid var(--border); border-radius:20px;
+  padding:5px 12px; font-size:12px; color:var(--ink-mid);
+  cursor:pointer; transition:all .2s; flex-shrink:0;
+}
+.theme-btn:hover{border-color:var(--red); color:var(--red)}
+
+/* small tier pill some tool headers use */
+.tier-badge{
+  background:var(--red-soft); color:var(--red);
+  border:1px solid var(--red-mid); border-radius:20px;
+  padding:4px 10px; font-size:11px; font-weight:600;
+  letter-spacing:.04em; text-transform:uppercase;
+}
+.tier-badge.free{background:rgba(30,107,60,.08); color:var(--green); border-color:rgba(30,107,60,.2)}
+.tier-badge.pro{background:var(--bg-alt); color:var(--ink-mid); border-color:var(--border)}
+
+/* ── PAGE HEADER (tool pages) ─────────────────────────────────────────────── */
+.page-header{max-width:780px; margin:0 auto; padding:52px 24px 36px; text-align:center}
+.page-eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--red); margin-bottom:16px; font-weight:600;
+}
+.page-eyebrow::before,.page-eyebrow::after{content:''; display:block; width:24px; height:1px; background:var(--red)}
+.page-header h1{
+  font-family:'Playfair Display',serif; font-size:clamp(32px,5vw,52px);
+  font-weight:900; letter-spacing:-1.5px; line-height:1.06; margin-bottom:14px;
+}
+.page-header h1 em{font-style:italic; color:var(--red)}
+.page-sub{font-size:16px; color:var(--ink-mid); line-height:1.65; max-width:520px; margin:0 auto}
+
+/* ── SHARED CARD / FIELDS / BUTTONS ───────────────────────────────────────── */
+.card{
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:16px; padding:28px; margin-bottom:16px; box-shadow:var(--shadow-sm);
+}
+.card-label{
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--ink-soft); font-weight:600;
+  margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid var(--border);
+}
+
+/* ── SHARED FOOTER ────────────────────────────────────────────────────────── */
+footer.prosperify-footer{
+  background:var(--ink); color:rgba(255,255,255,0.4);
+  padding:32px 40px; text-align:center; font-size:13px;
+}
+[data-theme="dark"] footer.prosperify-footer{background:#000}
+footer.prosperify-footer a{color:rgba(255,255,255,0.4); text-decoration:none}
+footer.prosperify-footer a:hover{color:#fff}
+footer.prosperify-footer .footer-brand{
+  font-family:'Playfair Display',serif; font-size:20px; font-weight:900;
+  color:var(--red); margin-bottom:8px;
+}
+
+/* ── EMAIL-CAPTURE GATE (shared modal for free tools) ─────────────────────── */
+.gate-overlay{
+  position:fixed; inset:0; z-index:1000; display:none;
+  align-items:center; justify-content:center; padding:20px;
+  background:rgba(28,25,23,0.55); backdrop-filter:blur(6px);
+}
+.gate-overlay.open{display:flex}
+.gate-modal{
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:18px; box-shadow:var(--shadow-lg);
+  width:100%; max-width:420px; padding:32px; position:relative;
+}
+.gate-modal::before{content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--red); border-radius:18px 18px 0 0}
+.gate-close{position:absolute; top:16px; right:18px; background:none; border:none; font-size:22px; color:var(--ink-soft); cursor:pointer; line-height:1}
+.gate-eyebrow{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--red); font-weight:600; margin-bottom:10px}
+.gate-title{font-family:'Playfair Display',serif; font-size:24px; font-weight:900; letter-spacing:-.5px; margin-bottom:8px; line-height:1.15}
+.gate-sub{font-size:14px; color:var(--ink-mid); line-height:1.6; margin-bottom:22px}
+.gate-input{
+  width:100%; padding:12px 14px; font-family:'Instrument Sans',sans-serif; font-size:15px;
+  border:1.5px solid var(--border); border-radius:10px; background:var(--bg); color:var(--ink);
+  outline:none; transition:border-color .15s; margin-bottom:10px;
+}
+.gate-input:focus{border-color:var(--red)}
+.gate-error{font-size:12px; color:var(--red); min-height:16px; margin-bottom:8px}
+.gate-btn{
+  width:100%; padding:13px; border:none; border-radius:10px;
+  background:var(--red); color:#FFF8EB; font-family:'Instrument Sans',sans-serif;
+  font-size:14px; font-weight:600; cursor:pointer; transition:transform .2s,box-shadow .2s;
+}
+.gate-btn:hover{transform:translateY(-1px); box-shadow:0 8px 24px var(--red-mid)}
+.gate-fineprint{font-size:11px; color:var(--ink-soft); text-align:center; margin-top:14px; line-height:1.5}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+@media(max-width:600px){
+  nav#prosperify-nav{padding:0 16px}
+  .tools-dd-menu{width:min(330px,calc(100vw - 32px))}
+  .page-header{padding:36px 16px 24px}
+  footer.prosperify-footer{padding:28px 20px}
+}

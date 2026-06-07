@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lease vs Buy Calculator — Prosperify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prosperify-theme.css">
+<style>
+:root {
+  --bg:#FDFAF4; --bg-alt:#F5F0E8; --bg-card:#FFFFFF;
+  --ink:#1C1917; --ink-mid:rgba(28,25,23,0.52); --ink-soft:rgba(28,25,23,0.36); --ink-faint:rgba(28,25,23,0.09);
+  --red:#DC321F; --red-soft:rgba(220,50,31,0.07); --border:rgba(28,25,23,0.09);
+  --green:#1E6B3C; --amber:#A0620A;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+}
+[data-theme="dark"] {
+  --bg:#1C1917; --bg-alt:#242019; --bg-card:#2B2520;
+  --ink:#FFF8EB; --ink-mid:rgba(255,248,235,0.52); --ink-soft:rgba(255,248,235,0.32); --ink-faint:rgba(255,248,235,0.08);
+  --border:rgba(255,248,235,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;transition:background .3s var(--ease),color .3s var(--ease)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;background:rgba(253,250,244,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:background .3s}
+[data-theme="dark"] nav{background:rgba(28,25,23,0.92)}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;font-size:22px;color:var(--red);text-decoration:none;letter-spacing:-0.5px}
+.nav-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--ink-mid);text-decoration:none;transition:color .2s}
+.nav-back:hover{color:var(--red)}
+.nav-right{display:flex;align-items:center;gap:16px}
+.theme-btn{background:none;border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--ink-mid);cursor:pointer;transition:all .2s}
+.theme-btn:hover{border-color:var(--red);color:var(--red)}
+.pro-badge{background:var(--bg-alt);color:var(--ink-mid);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+
+/* PAGE HEADER */
+.page-header{max-width:780px;margin:0 auto;padding:52px 24px 36px;text-align:center}
+.page-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:16px;font-weight:600}
+.page-eyebrow::before,.page-eyebrow::after{content:'';display:block;width:24px;height:1px;background:var(--red)}
+h1{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,52px);font-weight:900;letter-spacing:-1.5px;line-height:1.06;margin-bottom:14px}
+h1 em{font-style:italic;color:var(--red)}
+.page-sub{font-size:16px;color:var(--ink-mid);line-height:1.65;max-width:520px;margin:0 auto}
+
+/* CONTAINER */
+.container{max-width:680px;margin:0 auto;padding:0 24px 80px}
+
+/* CARD */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:28px}
+.progress-labels{display:flex;justify-content:space-between;margin-bottom:8px}
+.progress-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;transition:color .2s}
+.progress-label.active{color:var(--ink);font-weight:600}
+.progress-label.done{color:var(--red)}
+.progress-track{height:3px;background:var(--ink-faint);border-radius:2px;position:relative;overflow:hidden}
+.progress-fill{height:100%;background:var(--red);border-radius:2px;transition:width .4s var(--ease)}
+.progress-step{font-size:11px;color:var(--ink-soft);text-align:right;margin-top:6px}
+
+/* STEP HEADER */
+.step-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;letter-spacing:-0.5px;margin-bottom:6px}
+.step-sub{font-size:14px;color:var(--ink-mid);margin-bottom:28px;line-height:1.6}
+
+/* FORM FIELDS */
+.field{margin-bottom:20px}
+.field label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-bottom:7px}
+.field-row{display:flex;align-items:stretch;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg-card);transition:border-color .2s}
+.field-row:focus-within{border-color:var(--red)}
+.field-pre,.field-suf{padding:0 13px;font-size:14px;color:var(--ink-soft);background:var(--bg-alt);display:flex;align-items:center;font-weight:500}
+.field-pre{border-right:1px solid var(--border)}
+.field-suf{border-left:1px solid var(--border)}
+.field-row input,.field-row select{flex:1;padding:11px 13px;border:none;background:transparent;font-family:'Instrument Sans',sans-serif;font-size:15px;color:var(--ink);outline:none;width:100%}
+.field-row select{cursor:pointer}
+.field-note{font-size:11px;color:var(--ink-soft);margin-top:5px;line-height:1.5}
+
+/* DETECTED CLASS */
+.detected-box{background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:20px}
+.detected-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-bottom:4px}
+.detected-value{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px}
+.detected-box select{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:8px;background:var(--bg-card);font-family:'Instrument Sans',sans-serif;font-size:13px;color:var(--ink);outline:none;cursor:pointer}
+
+/* ALERT BOXES */
+.alert{border-radius:10px;padding:13px 15px;margin-bottom:20px;font-size:13px;line-height:1.6;display:flex;gap:10px}
+.alert-amber{background:rgba(160,98,10,0.08);border:1px solid rgba(160,98,10,0.25);color:var(--amber)}
+.alert-green{background:rgba(30,107,60,0.07);border:1px solid rgba(30,107,60,0.2);color:var(--green)}
+.alert-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+
+/* INLINE CALC PREVIEW */
+.calc-preview{background:var(--bg-alt);border-radius:10px;padding:16px 18px;margin-top:4px}
+.calc-preview-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
+.calc-preview-value{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--ink);line-height:1}
+.calc-preview-sub{font-size:12px;color:var(--ink-soft);margin-top:3px}
+
+/* CHECKBOX */
+.check-row{display:flex;align-items:center;gap:11px;margin-bottom:20px;cursor:pointer;user-select:none}
+.check-box{width:20px;height:20px;border:2px solid var(--border);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;background:var(--bg-card)}
+.check-box.checked{background:var(--red);border-color:var(--red)}
+.check-box svg{width:11px;height:11px;fill:none;stroke:white;stroke-width:2.5;opacity:0;transition:opacity .15s}
+.check-box.checked svg{opacity:1}
+.check-label{font-size:14px;color:var(--ink)}
+
+/* NAV BUTTONS */
+.btn-row{display:flex;justify-content:space-between;margin-top:28px;padding-top:20px;border-top:1px solid var(--border)}
+.btn{padding:12px 28px;border-radius:10px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;border:1.5px solid var(--border);color:var(--ink);background:var(--bg-card)}
+.btn:hover{border-color:var(--ink)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn-primary{background:var(--red);border-color:var(--red);color:white}
+.btn-primary:hover{background:#C02D1A;border-color:#C02D1A}
+
+/* RESULTS */
+.verdict-card{border-radius:16px;padding:28px;margin-bottom:16px;border:2px solid}
+.verdict-eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:6px}
+.verdict-saving{font-family:'Playfair Display',serif;font-size:46px;font-weight:900;line-height:1;margin-bottom:6px}
+.verdict-sub{font-size:14px;color:var(--ink-mid);line-height:1.5}
+.verdict-sub strong{color:var(--ink)}
+
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.metric-card{background:var(--bg-card);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;transition:border-color .2s}
+.metric-card.winner{border-color:currentColor}
+.metric-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
+.metric-value{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}
+
+/* EXPAND */
+.expand-btn{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg-card);font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink-mid);cursor:pointer;transition:all .2s;margin-bottom:0}
+.expand-btn:hover{border-color:var(--ink);color:var(--ink)}
+
+.breakdown{background:var(--bg-alt);border-radius:12px;padding:20px;margin-top:12px}
+.breakdown-section{margin-bottom:20px}
+.breakdown-section:last-child{margin-bottom:0}
+.breakdown-title{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.breakdown-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;align-items:baseline}
+.breakdown-row span:first-child{color:var(--ink-mid)}
+.breakdown-row span:last-child{font-weight:500}
+.breakdown-row.total{border-top:1px solid var(--border);padding-top:8px;margin-top:4px;font-weight:700;font-size:14px}
+.breakdown-row.total span:first-child{color:var(--ink)}
+.assumptions{font-size:12px;color:var(--ink-soft);line-height:1.7;padding-top:16px;border-top:1px solid var(--border);margin-top:16px}
+.assumptions strong{color:var(--ink-mid)}
+
+/* RESTART */
+.restart-btn{width:100%;margin-top:12px;padding:12px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:'Instrument Sans',sans-serif;font-size:13px;color:var(--ink-soft);cursor:pointer;transition:all .2s}
+.restart-btn:hover{border-color:var(--ink);color:var(--ink)}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,0.4);padding:32px 40px;text-align:center;font-size:13px}
+footer a{color:rgba(255,255,255,0.4);text-decoration:none}
+footer a:hover{color:white}
+.footer-brand{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--red);margin-bottom:8px}
+
+@media(max-width:600px){
+  nav{padding:0 16px}
+  .page-header{padding:36px 16px 24px}
+  .container{padding:0 16px 60px}
+  .metrics-grid{grid-template-columns:1fr}
+  .verdict-saving{font-size:36px}
+}
+</style>
+</head>
+<body>
+
+<!-- SHARED NAV -->
+<nav id="prosperify-nav"></nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-eyebrow">Capital Decision Tool</div>
+  <h1>Lease vs. <em>Buy</em></h1>
+  <p class="page-sub">Find out which option saves your business more money — after tax — for equipment and vehicles.</p>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+  <div class="card" id="wizardCard">
+
+    <!-- PROGRESS -->
+    <div class="progress-wrap">
+      <div class="progress-labels">
+        <span class="progress-label active" id="lbl0">Asset</span>
+        <span class="progress-label" id="lbl1">Purchase</span>
+        <span class="progress-label" id="lbl2">Lease</span>
+        <span class="progress-label" id="lbl3">Results</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-step" id="progressStep">Step 1 of 4</div>
+    </div>
+
+    <!-- STEPS -->
+    <div id="step0">
+      <div class="step-title">Tell us about the asset</div>
+      <div class="step-sub">We'll handle the CCA tax classification automatically.</div>
+
+      <!-- Province -->
+      <div class="field" id="regionField">
+        <label>Province</label>
+        <div class="field-row">
+          <select id="regionSelect" onchange="updateRegion()"></select>
+        </div>
+        <div class="field-note">Small business deduction (SBD) combined federal + provincial rate</div>
+      </div>
+
+      <div style="background:var(--bg-alt);border-radius:8px;padding:10px 14px;margin-bottom:20px;display:flex;justify-content:space-between;font-size:13px">
+        <span style="color:var(--ink-soft)">Tax rate being used</span>
+        <strong id="taxRateDisplay">12.2%</strong>
+      </div>
+
+      <div class="field">
+        <label>What are you acquiring?</label>
+        <div class="field-row"><input type="text" id="assetDesc" placeholder="e.g. Pickup truck, SUV, Office machinery…" onblur="detectClass()"></div>
+        <div class="field-note">Tab away to auto-detect CCA class</div>
+      </div>
+
+      <div id="detectedClassBox" style="display:none" class="detected-box">
+        <div class="detected-label">Detected Tax Class</div>
+        <div class="detected-value" id="detectedClassLabel"></div>
+        <div class="detected-label" style="margin-top:8px">Override if needed</div>
+        <select id="classOverride" onchange="applyClassOverride()"></select>
+      </div>
+
+      <div class="field">
+        <label>Asset Cost</label>
+        <div class="field-row"><div class="field-pre">$</div><input type="number" id="assetCost" value="50000" min="0" onchange="onCostChange()"></div>
+      </div>
+
+      <div id="thresholdSection" style="display:none">
+        <div class="field">
+          <label>CRA Passenger Vehicle Cost Limit</label>
+          <div class="field-row"><div class="field-pre">$</div><input type="number" id="class10Threshold" value="37000" min="0" onchange="onThresholdChange()"></div>
+          <div class="field-note">CRA 2024 limit: $37,000. Vehicles above this are Class 10.1 — only this amount is depreciable.</div>
+        </div>
+        <div id="thresholdAlert"></div>
+      </div>
+
+      <div class="field">
+        <label>How long do you plan to keep it?</label>
+        <div class="field-row"><input type="number" id="holdYears" value="5" min="1" max="30"><div class="field-suf">years</div></div>
+        <div class="field-note">The comparison is based on this period</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" disabled>← Back</button>
+        <button class="btn btn-primary" onclick="goTo(1)">Next →</button>
+      </div>
+    </div>
+
+    <!-- STEP 1: BUY -->
+    <div id="step1" style="display:none">
+      <div class="step-title">Purchase scenario</div>
+      <div class="step-sub">Enter your financing terms if you were to buy the asset outright.</div>
+
+      <div class="field">
+        <label>Down Payment</label>
+        <div class="field-row"><div class="field-pre">$</div><input type="number" id="downPayment" value="10000" min="0"></div>
+      </div>
+      <div class="field">
+        <label>Loan Interest Rate</label>
+        <div class="field-row"><input type="number" id="loanRate" value="6.5" step="0.1" min="0"><div class="field-suf">%</div></div>
+      </div>
+      <div class="field">
+        <label>Loan Term</label>
+        <div class="field-row"><input type="number" id="loanTerm" value="60" min="1"><div class="field-suf">months</div></div>
+      </div>
+
+      <div class="calc-preview" id="monthlyPaymentPreview">
+        <div class="calc-preview-label">Estimated monthly payment</div>
+        <div class="calc-preview-value" id="monthlyPaymentVal">—</div>
+        <div class="calc-preview-sub" id="monthlyPaymentSub"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" onclick="goTo(0)">← Back</button>
+        <button class="btn btn-primary" onclick="goTo(2)">Next →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: LEASE -->
+    <div id="step2" style="display:none">
+      <div class="step-title">Lease scenario</div>
+      <div class="step-sub">Enter the terms of the lease you're considering.</div>
+
+      <div class="field">
+        <label>Monthly Lease Payment</label>
+        <div class="field-row"><div class="field-pre">$</div><input type="number" id="monthlyLease" value="900" min="0" onchange="checkLeaseCap()"></div>
+      </div>
+      <div class="field">
+        <label>Lease Term</label>
+        <div class="field-row"><input type="number" id="leaseTerm" value="48" min="1"><div class="field-suf">months</div></div>
+      </div>
+      <div class="field">
+        <label>Security Deposit</label>
+        <div class="field-row"><div class="field-pre">$</div><input type="number" id="leaseDeposit" value="2000" min="0"></div>
+      </div>
+
+      <div id="leaseCapField" style="display:none">
+        <div class="field">
+          <label>CRA Monthly Lease Deduction Cap</label>
+          <div class="field-row"><div class="field-pre">$</div><input type="number" id="leaseCap" value="1100" min="0" onchange="checkLeaseCap()"></div>
+          <div class="field-note">Class 10.1 vehicles only. CRA 2024 limit: $1,100/mo. Update if CRA rules change.</div>
+        </div>
+        <div id="leaseCapAlert"></div>
+      </div>
+
+      <div class="check-row" onclick="toggleBuyout()">
+        <div class="check-box" id="buyoutCheck">
+          <svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg>
+        </div>
+        <span class="check-label">Include end-of-lease buyout option</span>
+      </div>
+
+      <div id="buyoutField" style="display:none" class="field">
+        <label>Buyout Option Price</label>
+        <div class="field-row"><div class="field-pre">$</div><input type="number" id="buyoutPrice" value="10000" min="0"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" onclick="goTo(1)">← Back</button>
+        <button class="btn btn-primary" onclick="calcAndShow()">See Results →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: RESULTS -->
+    <div id="step3" style="display:none">
+      <div class="step-title">CFO Summary</div>
+      <div class="step-sub" id="resultsSub"></div>
+
+      <!-- VERDICT -->
+      <div class="verdict-card" id="verdictCard">
+        <div class="verdict-eyebrow" id="verdictEyebrow"></div>
+        <div class="verdict-saving" id="verdictSaving"></div>
+        <div class="verdict-sub" id="verdictSub"></div>
+      </div>
+
+      <!-- 4 KEY METRICS -->
+      <div class="metrics-grid">
+        <div class="metric-card" id="metricBuy">
+          <div class="metric-label">Buy — after-tax cost</div>
+          <div class="metric-value" id="metricBuyVal"></div>
+        </div>
+        <div class="metric-card" id="metricLease">
+          <div class="metric-label">Lease — after-tax cost</div>
+          <div class="metric-value" id="metricLeaseVal"></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Buy monthly payment</div>
+          <div class="metric-value" id="metricBuyMonthly"></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Lease monthly payment</div>
+          <div class="metric-value" id="metricLeaseMonthly"></div>
+        </div>
+      </div>
+
+      <!-- EXPAND -->
+      <button class="expand-btn" id="expandBtn" onclick="toggleBreakdown()">▼ Show Full Breakdown</button>
+
+      <div id="breakdownPanel" style="display:none">
+        <div class="breakdown">
+          <div class="breakdown-section">
+            <div class="breakdown-title">Purchase</div>
+            <div class="breakdown-row"><span>Down Payment</span><span id="bdDownPayment"></span></div>
+            <div class="breakdown-row"><span id="bdLoanLabel">Loan Payments</span><span id="bdLoanPayments"></span></div>
+            <div class="breakdown-row"><span id="bdTaxLabel">Tax Savings</span><span id="bdTaxSavings" style="color:var(--green)"></span></div>
+            <div class="breakdown-row total"><span>After-Tax Cost</span><span id="bdBuyTotal"></span></div>
+          </div>
+          <div class="breakdown-section">
+            <div class="breakdown-title">Lease</div>
+            <div class="breakdown-row"><span>Security Deposit</span><span id="bdDeposit"></span></div>
+            <div class="breakdown-row"><span id="bdLeasePayLabel">Lease Payments</span><span id="bdLeasePayments"></span></div>
+            <div class="breakdown-row"><span>Lease Tax Savings</span><span id="bdLeaseTax" style="color:var(--green)"></span></div>
+            <div class="breakdown-row" id="bdBuyoutRow" style="display:none"><span>Buyout Cost</span><span id="bdBuyoutVal"></span></div>
+            <div class="breakdown-row total"><span>After-Tax Cost</span><span id="bdLeaseTotal"></span></div>
+          </div>
+          <div class="assumptions" id="assumptionsText"></div>
+        </div>
+      </div>
+
+      <button class="restart-btn" onclick="restart()">← Start Over</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="prosperify-footer">
+  <div class="footer-brand">Prosperify</div>
+  <p>For decision-support only. Not tax or financial advice. Consult your accountant for your specific situation.</p>
+  <p style="margin-top:8px"><a href="prosperify-homepage.html">← Back to all tools</a></p>
+</footer>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────
+const CA_PROVINCES = [
+  {label:"British Columbia",rate:11.0},{label:"Alberta",rate:11.0},
+  {label:"Saskatchewan",rate:11.0},{label:"Manitoba",rate:11.0},
+  {label:"Ontario",rate:12.2},{label:"Quebec",rate:13.0},
+  {label:"New Brunswick",rate:11.5},{label:"Nova Scotia",rate:12.5},
+  {label:"PEI",rate:10.5},{label:"Newfoundland & Labrador",rate:12.0},
+  {label:"Northwest Territories",rate:11.0},{label:"Nunavut",rate:11.0},
+  {label:"Yukon",rate:11.0}
+];
+const CCA_CLASSES = {
+  "10":  {rate:0.30,label:"Class 10 — Vehicles & Trucks (30%)"},
+  "10.1":{rate:0.30,label:"Class 10.1 — Passenger Vehicles over cost limit (30%)"},
+  "8":   {rate:0.20,label:"Class 8 — Machinery & Equipment (20%)"},
+  "12":  {rate:1.00,label:"Class 12 — Small Tools & Software (100%)"},
+  "43":  {rate:0.30,label:"Class 43 — Manufacturing Equipment (30%)"}
+};
+const PASSENGER_KW = ["car","sedan","suv","coupe","hatchback","convertible","passenger vehicle","automobile"];
+const COMMERCIAL_KW = ["pickup truck","truck","van","cargo van","delivery vehicle","work truck","fleet vehicle"];
+const OTHER_KW = {"machinery":"8","heavy equipment":"8","computer":"8","laptop":"8","server":"8","office equipment":"8","manufacturing equipment":"43","production equipment":"43","software":"12","tools":"12","small tools":"12"};
+
+// ── STATE ─────────────────────────────────────────────────────────
+const country = "CA";
+let taxRate = 11.0; // BC default
+let isPassengerVehicle = false;
+let detectedCls = null;
+let overrideCls = null;
+let exerciseBuyout = false;
+let breakdownOpen = false;
+let currentStep = 0;
+
+// ── HELPERS ───────────────────────────────────────────────────────
+function fmt$(n){if(!isFinite(n)||isNaN(n))return"—";const s=n<0?"-":"";return s+"$"+Math.abs(Math.round(n)).toLocaleString("en-CA")}
+function fmtPct(n,d=1){return n.toFixed(d)+"%"}
+function getVal(id){return parseFloat(document.getElementById(id).value)||0}
+function getStr(id){return document.getElementById(id).value.trim()}
+
+function effectiveClass(){return overrideCls||detectedCls||"8"}
+function getCCAInfo(){return CCA_CLASSES[effectiveClass()]}
+function showLeaseCap(){return country==="CA"&&effectiveClass()==="10.1"}
+
+// ── REGION ───────────────────────────────────────────────────────
+function populateRegion(){
+  const sel=document.getElementById("regionSelect");
+  sel.innerHTML=CA_PROVINCES.map(p=>`<option value="${p.rate}">${p.label} — ${p.rate}%</option>`).join("");
+  sel.value="11"; // BC default
+  updateRegion();
+}
+
+function updateRegion(){
+  taxRate=parseFloat(document.getElementById("regionSelect").value);
+  document.getElementById("taxRateDisplay").textContent=fmtPct(taxRate);
+  updateMonthlyPreview();
+}
+
+// ── ASSET DETECTION ───────────────────────────────────────────────
+function detectClass(){
+  const desc=getStr("assetDesc").toLowerCase();
+  if(!desc){detectedCls=null;overrideCls=null;isPassengerVehicle=false;updateClassUI();return}
+
+  for(const kw of COMMERCIAL_KW){if(desc.includes(kw)){detectedCls="10";isPassengerVehicle=false;updateClassUI();return}}
+  for(const kw of PASSENGER_KW){if(desc.includes(kw)){isPassengerVehicle=true;checkCostThreshold();return}}
+  for(const[kw,cls] of Object.entries(OTHER_KW)){if(desc.includes(kw)){detectedCls=cls;isPassengerVehicle=false;updateClassUI();return}}
+  detectedCls="8";isPassengerVehicle=false;updateClassUI();
+}
+
+function checkCostThreshold(){
+  const cost=getVal("assetCost");
+  const thresh=getVal("class10Threshold")||37000;
+  detectedCls=cost>thresh?"10.1":"10";
+  overrideCls=null;
+  updateClassUI();
+}
+
+function onCostChange(){
+  if(isPassengerVehicle&&country==="CA")checkCostThreshold();
+  updateMonthlyPreview();
+  updateThresholdAlert();
+}
+
+function onThresholdChange(){
+  if(isPassengerVehicle&&country==="CA")checkCostThreshold();
+  updateThresholdAlert();
+}
+
+function updateClassUI(){
+  const show=country==="CA"&&detectedCls!==null;
+  document.getElementById("detectedClassBox").style.display=show?"block":"none";
+  document.getElementById("thresholdSection").style.display=(show&&isPassengerVehicle)?"block":"none";
+
+  if(show){
+    const cls=effectiveClass();
+    document.getElementById("detectedClassLabel").textContent=CCA_CLASSES[cls]?.label||cls;
+    const sel=document.getElementById("classOverride");
+    sel.innerHTML=Object.entries(CCA_CLASSES).map(([k,v])=>`<option value="${k}"${k===cls?" selected":""}>${v.label}</option>`).join("");
+  }
+  updateThresholdAlert();
+  checkLeaseCap();
+}
+
+function applyClassOverride(){
+  overrideCls=document.getElementById("classOverride").value;
+  document.getElementById("detectedClassLabel").textContent=CCA_CLASSES[overrideCls]?.label||overrideCls;
+  checkLeaseCap();
+}
+
+function updateThresholdAlert(){
+  const box=document.getElementById("thresholdAlert");
+  if(!isPassengerVehicle||!detectedCls||country!=="CA"){box.innerHTML="";return}
+  const cost=getVal("assetCost");
+  const thresh=getVal("class10Threshold")||37000;
+  if(effectiveClass()==="10.1"){
+    const lost=cost-thresh;
+    box.innerHTML=`<div class="alert alert-amber"><span class="alert-icon">⚠</span><div><strong>Class 10.1 applies.</strong> Your vehicle costs ${fmt$(cost)}, which is ${fmt$(lost)} over the CRA limit. CCA can only be claimed on ${fmt$(thresh)} — you <strong>cannot depreciate ${fmt$(lost)}</strong> of the purchase price.</div></div>`;
+  } else {
+    box.innerHTML=`<div class="alert alert-green"><span class="alert-icon">✓</span><div><strong>Class 10 applies.</strong> Vehicle cost is under the CRA limit — the full ${fmt$(cost)} is eligible for CCA.</div></div>`;
+  }
+}
+
+// ── LEASE CAP ────────────────────────────────────────────────────
+function checkLeaseCap(){
+  document.getElementById("leaseCapField").style.display=showLeaseCap()?"block":"none";
+  const alertBox=document.getElementById("leaseCapAlert");
+  if(!showLeaseCap()){alertBox.innerHTML="";return}
+  const monthly=getVal("monthlyLease");
+  const cap=getVal("leaseCap")||1100;
+  if(monthly>cap){
+    alertBox.innerHTML=`<div class="alert alert-amber"><span class="alert-icon">⚠</span><div>Your monthly payment exceeds the CRA deduction cap of ${fmt$(cap)}/mo. Only ${fmt$(cap)}/mo is tax-deductible.</div></div>`;
+  } else {
+    alertBox.innerHTML="";
+  }
+}
+
+// ── MONTHLY PAYMENT PREVIEW ───────────────────────────────────────
+function updateMonthlyPreview(){
+  const loan=getVal("assetCost")-getVal("downPayment");
+  const mr=getVal("loanRate")/100/12;
+  const n=getVal("loanTerm")||60;
+  const mp=mr>0?loan*(mr*Math.pow(1+mr,n))/(Math.pow(1+mr,n)-1):loan/n;
+  document.getElementById("monthlyPaymentVal").textContent=fmt$(mp)+"/mo";
+  document.getElementById("monthlyPaymentSub").textContent="Total interest: "+fmt$(mp*n-loan);
+}
+
+// ── BUYOUT TOGGLE ─────────────────────────────────────────────────
+function toggleBuyout(){
+  exerciseBuyout=!exerciseBuyout;
+  document.getElementById("buyoutCheck").classList.toggle("checked",exerciseBuyout);
+  document.getElementById("buyoutField").style.display=exerciseBuyout?"block":"none";
+}
+
+// ── STEP NAVIGATION ───────────────────────────────────────────────
+function goTo(n){
+  document.getElementById("step"+currentStep).style.display="none";
+  currentStep=n;
+  document.getElementById("step"+n).style.display="block";
+  updateProgress();
+  if(n===1)updateMonthlyPreview();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function updateProgress(){
+  const pct=currentStep===3?100:(currentStep/(4-1))*100;
+  document.getElementById("progressFill").style.width=pct+"%";
+  document.getElementById("progressStep").textContent="Step "+(currentStep+1)+" of 4";
+  ["lbl0","lbl1","lbl2","lbl3"].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    el.classList.toggle("active",i===currentStep);
+    el.classList.toggle("done",i<currentStep);
+  });
+}
+
+function restart(){
+  breakdownOpen=false;
+  document.getElementById("breakdownPanel").style.display="none";
+  document.getElementById("expandBtn").textContent="▼ Show Full Breakdown";
+  goTo(0);
+}
+
+// ── CALCULATIONS ─────────────────────────────────────────────────
+function calcAndShow(){
+  const tr=taxRate/100;
+  const holdYrs=getVal("holdYears")||5;
+  const holdMo=holdYrs*12;
+  const cost=getVal("assetCost");
+  const down=getVal("downPayment");
+  const loanAmt=cost-down;
+  const mr=getVal("loanRate")/100/12;
+  const n=getVal("loanTerm")||60;
+  const mp=mr>0?loanAmt*(mr*Math.pow(1+mr,n))/(Math.pow(1+mr,n)-1):loanAmt/n;
+  const payMo=Math.min(n,holdMo);
+
+  // BUY tax savings — CCA declining balance
+  let buyTaxSavings=0;
+  const cls=effectiveClass();
+  const thresh=getVal("class10Threshold")||37000;
+  const ccaBase=cls==="10.1"?Math.min(cost,thresh):cost;
+  let ucc=ccaBase;
+  const rate=CCA_CLASSES[cls]?.rate||0.2;
+  for(let y=1;y<=holdYrs;y++){
+    const cca=y===1?ucc*rate*0.5:ucc*rate;
+    buyTaxSavings+=cca*tr;
+    ucc-=cca;
+    if(ucc<50)break;
+  }
+
+  const totalBuyCash=down+mp*payMo;
+  const buyAfterTax=totalBuyCash-buyTaxSavings;
+
+  // LEASE
+  const monthly=getVal("monthlyLease");
+  const lTerm=getVal("leaseTerm")||48;
+  const deposit=getVal("leaseDeposit");
+  const lMo=Math.min(lTerm,holdMo);
+  const effMonthly=showLeaseCap()&&monthly>(getVal("leaseCap")||1100)?(getVal("leaseCap")||1100):monthly;
+  const leaseTaxSavings=effMonthly*lMo*tr;
+  const buyoutCost=(exerciseBuyout&&lTerm<=holdMo)?getVal("buyoutPrice"):0;
+  const leaseAfterTax=deposit+monthly*lMo-leaseTaxSavings+buyoutCost;
+
+  const winner=buyAfterTax<=leaseAfterTax?"BUY":"LEASE";
+  const saving=Math.abs(leaseAfterTax-buyAfterTax);
+  const savingPerYear=saving/holdYrs;
+
+  renderResults({winner,saving,savingPerYear,holdYrs,buyAfterTax,leaseAfterTax,mp,monthly,
+    down,payMo,buyTaxSavings,deposit,lMo,leaseTaxSavings,buyoutCost,cls,thresh,cost,tr});
+  goTo(3);
+}
+
+function renderResults(r){
+  const winColor=r.winner==="BUY"?"var(--green)":"var(--amber)";
+
+  document.getElementById("resultsSub").textContent=`After-tax cost comparison over ${r.holdYrs} year${r.holdYrs!==1?"s":""}.`;
+
+  // Verdict
+  const vc=document.getElementById("verdictCard");
+  vc.style.borderColor=winColor;
+  vc.style.background=r.winner==="BUY"?"rgba(30,107,60,0.06)":"rgba(160,98,10,0.06)";
+  document.getElementById("verdictEyebrow").style.color=winColor;
+  document.getElementById("verdictEyebrow").textContent=(r.winner==="BUY"?"Buying":"Leasing")+" saves you";
+  document.getElementById("verdictSaving").style.color=winColor;
+  document.getElementById("verdictSaving").textContent=fmt$(r.saving);
+  document.getElementById("verdictSub").innerHTML=`over ${r.holdYrs} year${r.holdYrs!==1?"s":""} &nbsp;·&nbsp; <strong>${fmt$(r.savingPerYear)}/yr</strong> on average`;
+
+  // Metrics
+  const mBuy=document.getElementById("metricBuy");
+  const mLease=document.getElementById("metricLease");
+  mBuy.style.borderColor=r.winner==="BUY"?winColor:"var(--border)";
+  mBuy.style.color=r.winner==="BUY"?winColor:"var(--ink)";
+  mLease.style.borderColor=r.winner==="LEASE"?winColor:"var(--border)";
+  mLease.style.color=r.winner==="LEASE"?winColor:"var(--ink)";
+  document.getElementById("metricBuyVal").style.color=r.winner==="BUY"?winColor:"var(--ink)";
+  document.getElementById("metricLeaseVal").style.color=r.winner==="LEASE"?winColor:"var(--ink)";
+  document.getElementById("metricBuyVal").textContent=fmt$(r.buyAfterTax);
+  document.getElementById("metricLeaseVal").textContent=fmt$(r.leaseAfterTax);
+  document.getElementById("metricBuyMonthly").textContent=fmt$(r.mp)+"/mo";
+  document.getElementById("metricLeaseMonthly").textContent=fmt$(r.monthly)+"/mo";
+
+  // Breakdown
+  document.getElementById("bdDownPayment").textContent=fmt$(r.down);
+  document.getElementById("bdLoanLabel").textContent=`Loan Payments (${r.payMo} mo)`;
+  document.getElementById("bdLoanPayments").textContent=fmt$(r.mp*r.payMo);
+  document.getElementById("bdTaxLabel").textContent=`CCA Tax Savings (${r.holdYrs} yrs)`;
+  document.getElementById("bdTaxSavings").textContent="−"+fmt$(r.buyTaxSavings);
+  document.getElementById("bdBuyTotal").textContent=fmt$(r.buyAfterTax);
+  document.getElementById("bdBuyTotal").style.color=r.winner==="BUY"?winColor:"var(--ink)";
+  document.getElementById("bdDeposit").textContent=fmt$(r.deposit);
+  document.getElementById("bdLeasePayLabel").textContent=`Lease Payments (${r.lMo} mo)`;
+  document.getElementById("bdLeasePayments").textContent=fmt$(r.monthly*r.lMo);
+  document.getElementById("bdLeaseTax").textContent="−"+fmt$(r.leaseTaxSavings);
+  const bdBuyoutRow=document.getElementById("bdBuyoutRow");
+  if(r.buyoutCost>0){bdBuyoutRow.style.display="flex";document.getElementById("bdBuyoutVal").textContent=fmt$(r.buyoutCost)}else{bdBuyoutRow.style.display="none"}
+  document.getElementById("bdLeaseTotal").textContent=fmt$(r.leaseAfterTax);
+  document.getElementById("bdLeaseTotal").style.color=r.winner==="LEASE"?winColor:"var(--ink)";
+
+  // Assumptions
+  const reg=document.getElementById("regionSelect").options[document.getElementById("regionSelect").selectedIndex].text.split("—")[0].trim();
+  let assumText=`<strong>Tax rate:</strong> ${taxRate.toFixed(1)}% (${reg} SBD rate)<br>`;
+  assumText+=`<strong>CCA:</strong> Class ${r.cls} · ${(CCA_CLASSES[r.cls]?.rate||0)*100}% declining balance · Half-year rule applied Year 1`;
+  if(r.cls==="10.1")assumText+=` · CCA base capped at ${fmt$(r.thresh)} (${fmt$(r.cost-r.thresh)} not depreciable)`;
+  if(showLeaseCap()&&r.monthly>(getVal("leaseCap")||1100))assumText+=`<br><strong>Lease cap:</strong> Deduction capped at ${fmt$(getVal("leaseCap")||1100)}/mo per CRA Class 10.1 rules`;
+  assumText+=`<br><br><em>For decision-support only. Not tax or financial advice. Consult your accountant.</em>`;
+  document.getElementById("assumptionsText").innerHTML=assumText;
+}
+
+function toggleBreakdown(){
+  breakdownOpen=!breakdownOpen;
+  document.getElementById("breakdownPanel").style.display=breakdownOpen?"block":"none";
+  document.getElementById("expandBtn").textContent=breakdownOpen?"▲ Hide Full Breakdown":"▼ Show Full Breakdown";
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+populateRegion();
+updateMonthlyPreview();
+</script>
+<script src="prosperify-tools.js"></script>
+<script>renderProsperifyNav("lease-vs-buy");</script>
+</body>
+</html>

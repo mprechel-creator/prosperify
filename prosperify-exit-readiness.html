@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exit Readiness — Prosperify</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prosperify-theme.css">
+<style>
+:root {
+  --bg:#FDFAF4; --bg-alt:#F5F0E8; --bg-card:#FFFFFF;
+  --ink:#1C1917; --ink-mid:rgba(28,25,23,0.55); --ink-soft:rgba(28,25,23,0.38); --ink-faint:rgba(28,25,23,0.1);
+  --red:#DC321F; --red-soft:rgba(220,50,31,0.07); --red-mid:rgba(220,50,31,0.18);
+  --green:#16A34A; --green-soft:rgba(22,163,74,0.08);
+  --amber:#D97706; --amber-soft:rgba(217,119,6,0.08);
+  --border:rgba(28,25,23,0.09);
+  --shadow-sm:0 2px 12px rgba(28,25,23,0.06); --shadow-md:0 8px 32px rgba(28,25,23,0.09); --shadow-lg:0 20px 56px rgba(28,25,23,0.12);
+  --ease:cubic-bezier(0.22,1,0.36,1);
+  --radius:16px;
+}
+[data-theme="dark"] {
+  --bg:#1C1917; --bg-alt:#242019; --bg-card:#2B2520;
+  --ink:#FFF8EB; --ink-mid:rgba(255,248,235,0.52); --ink-soft:rgba(255,248,235,0.32); --ink-faint:rgba(255,248,235,0.08);
+  --border:rgba(255,248,235,0.08);
+  --shadow-sm:0 2px 12px rgba(0,0,0,0.3); --shadow-md:0 8px 32px rgba(0,0,0,0.35); --shadow-lg:0 20px 56px rgba(0,0,0,0.45);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.65;overflow-x:hidden;transition:background .3s var(--ease),color .3s var(--ease)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(253,250,244,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
+[data-theme="dark"] nav{background:rgba(28,25,23,0.9)}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;font-size:24px;color:var(--red);text-decoration:none;letter-spacing:-0.5px}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{font-size:14px;font-weight:500;color:var(--ink-mid);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--red)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.theme-btn{background:none;border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--ink-mid);cursor:pointer;transition:all .2s;font-family:'Instrument Sans',sans-serif}
+.theme-btn:hover{border-color:var(--red);color:var(--red)}
+.btn-primary{background:var(--red);color:white;border:none;border-radius:10px;padding:10px 22px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.btn-primary:hover{background:#C02D1A;transform:translateY(-1px)}
+.btn-ghost{background:none;border:1.5px solid var(--border);border-radius:10px;padding:10px 22px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;color:var(--ink);text-decoration:none;transition:all .2s}
+.btn-ghost:hover{border-color:var(--ink)}
+
+/* HERO */
+.hero{padding:120px 48px 64px;max-width:760px;margin:0 auto;text-align:center}
+.hero-eye{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:20px;font-weight:600}
+.hero-eye::before,.hero-eye::after{content:'';width:20px;height:1px;background:var(--red)}
+h1{font-family:'Playfair Display',serif;font-size:clamp(38px,5vw,60px);font-weight:900;letter-spacing:-2px;line-height:1.04;margin-bottom:18px}
+h1 em{font-style:italic;color:var(--red)}
+.hero-sub{font-size:17px;color:var(--ink-mid);line-height:1.65;margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-meta{display:flex;align-items:center;justify-content:center;gap:24px;font-size:12px;color:var(--ink-soft);margin-top:16px}
+.hero-meta span{display:flex;align-items:center;gap:6px}
+.hero-meta span::before{content:'✓';color:var(--green);font-weight:700}
+
+/* STAGE INDICATOR */
+.stage-bar{max-width:760px;margin:0 auto 48px;padding:0 48px}
+.stage-track{display:flex;align-items:center;gap:0;background:var(--bg-alt);border:1px solid var(--border);border-radius:40px;padding:6px;overflow:hidden}
+.stage-step{flex:1;text-align:center;padding:8px 4px;border-radius:30px;font-size:12px;font-weight:600;color:var(--ink-soft);transition:all .3s var(--ease);cursor:default;position:relative}
+.stage-step.active{background:var(--red);color:white}
+.stage-step.done{color:var(--green)}
+
+/* MAIN CONTAINER */
+.app-wrap{max-width:860px;margin:0 auto;padding:0 48px 96px}
+
+/* SECTION CARD */
+.section-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:40px;box-shadow:var(--shadow-sm);margin-bottom:20px;transition:box-shadow .25s}
+.section-card:focus-within{box-shadow:var(--shadow-md)}
+
+/* CATEGORY HEADER */
+.cat-header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.cat-icon{width:44px;height:44px;border-radius:12px;background:var(--red-soft);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.cat-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}
+.cat-sub{font-size:13px;color:var(--ink-mid);margin-top:2px}
+
+/* QUESTIONS */
+.question{margin-bottom:24px}
+.question:last-child{margin-bottom:0}
+.q-label{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:10px;display:block;line-height:1.5}
+.q-label .q-num{color:var(--red);font-weight:700;margin-right:6px}
+
+/* RADIO OPTIONS */
+.radio-group{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.radio-opt{position:relative}
+.radio-opt input{position:absolute;opacity:0;width:0;height:0}
+.radio-opt label{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;cursor:pointer;transition:all .18s var(--ease);color:var(--ink-mid)}
+.radio-opt label:hover{border-color:rgba(220,50,31,0.3);color:var(--ink)}
+.radio-opt input:checked + label{border-color:var(--red);background:var(--red-soft);color:var(--ink);font-weight:500}
+.radio-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .18s;background:var(--bg)}
+.radio-opt input:checked + label .radio-dot{border-color:var(--red);background:var(--red)}
+
+/* SCALE */
+.scale-wrap{display:flex;gap:6px;align-items:center}
+.scale-btn{width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border);background:none;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;color:var(--ink-mid);font-family:'Instrument Sans',sans-serif}
+.scale-btn:hover{border-color:var(--red);color:var(--red)}
+.scale-btn.selected{background:var(--red);border-color:var(--red);color:white}
+.scale-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-soft);margin-top:6px}
+
+/* TEXTAREA */
+.q-textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;font-family:'Instrument Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--bg);resize:vertical;min-height:80px;transition:border-color .2s;line-height:1.6}
+.q-textarea:focus{outline:none;border-color:var(--red)}
+[data-theme="dark"] .q-textarea{background:var(--bg-alt)}
+
+/* PROGRESS BAR */
+.cat-progress{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-size:12px;color:var(--ink-soft)}
+.progress-bar{height:4px;background:var(--ink-faint);border-radius:2px;margin-bottom:24px;overflow:hidden}
+.progress-fill{height:100%;background:var(--red);border-radius:2px;transition:width .4s var(--ease)}
+
+/* NAV BUTTONS */
+.nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+.nav-btns-right{display:flex;gap:10px;align-items:center}
+
+/* UPLOAD ZONE */
+.upload-section{margin-top:40px}
+.upload-eyebrow{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:16px;font-weight:600}
+.upload-eyebrow::before{content:'';width:20px;height:1px;background:var(--red)}
+.upload-box{border:2px dashed var(--border);border-radius:16px;padding:48px 32px;text-align:center;cursor:pointer;transition:all .25s var(--ease);position:relative}
+.upload-box:hover,.upload-box.drag{border-color:var(--red);background:var(--red-soft)}
+.upload-icon{font-size:32px;margin-bottom:12px}
+.upload-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:6px}
+.upload-sub{font-size:13px;color:var(--ink-mid);margin-bottom:16px}
+.upload-types{font-size:11px;color:var(--ink-soft)}
+.upload-input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.file-list{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.file-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg-alt);border-radius:10px;font-size:13px}
+.file-name{font-weight:500;display:flex;align-items:center;gap:8px}
+.file-remove{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:16px;transition:color .2s;padding:0}
+.file-remove:hover{color:var(--red)}
+.upload-skip{font-size:13px;color:var(--ink-soft);text-align:center;margin-top:16px}
+.upload-skip a{color:var(--red);text-decoration:none;font-weight:500;cursor:pointer}
+
+/* ANALYZING */
+.analyzing-wrap{text-align:center;padding:64px 32px}
+.analyzing-spinner{width:56px;height:56px;border:3px solid var(--ink-faint);border-top-color:var(--red);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 24px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.analyzing-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;margin-bottom:8px}
+.analyzing-sub{font-size:14px;color:var(--ink-mid)}
+.analyzing-steps{margin-top:28px;display:flex;flex-direction:column;gap:10px;max-width:340px;margin-left:auto;margin-right:auto}
+.a-step{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-soft);padding:10px 16px;border-radius:10px;background:var(--bg-alt);transition:all .3s}
+.a-step.done{color:var(--green);background:var(--green-soft)}
+.a-step.active{color:var(--ink);background:var(--bg-card);box-shadow:var(--shadow-sm)}
+.a-step-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .3s}
+.a-step.done .a-step-dot{background:var(--green)}
+.a-step.active .a-step-dot{background:var(--red);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* RESULTS */
+.results-wrap{display:none}
+.results-wrap.show{display:block}
+
+/* SCORE HERO */
+.score-hero{background:var(--ink);border-radius:24px;padding:48px;color:var(--bg);margin-bottom:24px;position:relative;overflow:hidden}
+[data-theme="dark"] .score-hero{background:var(--bg-card);border:1px solid var(--border)}
+.score-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;border-radius:50%;background:rgba(220,50,31,0.12);pointer-events:none}
+.score-hero-label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,248,235,0.5);margin-bottom:8px;font-weight:600}
+.score-hero-num{font-family:'Playfair Display',serif;font-size:88px;font-weight:900;line-height:1;letter-spacing:-4px;color:#FFF8EB}
+.score-hero-denom{font-size:28px;color:rgba(255,248,235,0.4);font-family:'Playfair Display',serif}
+.score-hero-grade{display:inline-flex;align-items:center;gap:8px;margin-top:8px;margin-bottom:20px}
+.grade-badge{padding:6px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:.04em}
+.score-timeline{font-size:14px;color:rgba(255,248,235,0.65);display:flex;align-items:center;gap:8px}
+.score-timeline strong{color:#FFF8EB}
+.score-bar-wrap{margin-top:24px}
+.score-bar-track{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#DC321F,#F59E0B,#22C55E);transition:width 1.2s var(--ease)}
+
+/* CATEGORY SCORES */
+.cat-scores-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:24px}
+.cat-score-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow-sm)}
+.cat-score-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.cat-score-name{font-size:13px;font-weight:600;color:var(--ink)}
+.cat-score-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}
+.cat-score-bar{height:5px;background:var(--ink-faint);border-radius:3px;overflow:hidden}
+.cat-score-fill{height:100%;border-radius:3px;transition:width 1s var(--ease) .3s}
+
+/* NARRATIVE */
+.narrative-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:36px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
+.narrative-card h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.narrative-body{font-size:15px;color:var(--ink-mid);line-height:1.75}
+.narrative-body p{margin-bottom:14px}
+.narrative-body p:last-child{margin-bottom:0}
+
+/* ACTION PLAN */
+.action-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:36px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
+.action-card h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.action-item{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--border)}
+.action-item:last-child{border-bottom:none}
+.action-rank{width:32px;height:32px;border-radius:8px;background:var(--red);color:white;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.action-rank.med{background:var(--amber)}
+.action-rank.low{background:var(--ink-soft)}
+.action-body{}
+.action-title{font-weight:600;font-size:14px;margin-bottom:4px}
+.action-desc{font-size:13px;color:var(--ink-mid);line-height:1.6;margin-bottom:8px}
+.action-meta{display:flex;gap:10px;flex-wrap:wrap}
+.action-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;letter-spacing:.04em}
+.tag-impact{background:var(--red-soft);color:var(--red);border:1px solid var(--red-mid)}
+.tag-effort{background:var(--bg-alt);color:var(--ink-mid);border:1px solid var(--border)}
+.tag-time{background:var(--green-soft);color:var(--green);border:1px solid rgba(22,163,74,0.2)}
+
+/* VALUATION */
+.val-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:36px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
+.val-card h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.val-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px}
+.val-item{background:var(--bg-alt);border-radius:12px;padding:18px}
+.val-item-label{font-size:12px;color:var(--ink-soft);margin-bottom:4px;font-weight:500}
+.val-item-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1.1}
+.val-item-note{font-size:11px;color:var(--ink-soft);margin-top:4px}
+.val-upside{background:var(--green-soft);border:1px solid rgba(22,163,74,0.2);border-radius:12px;padding:18px;display:flex;align-items:center;gap:14px}
+.val-upside-icon{font-size:24px}
+.val-upside-text{font-size:14px;color:var(--green);line-height:1.5}
+.val-upside-text strong{font-weight:700}
+
+/* RESULTS CTA */
+.results-cta{background:var(--red);border-radius:20px;padding:48px;text-align:center;color:white;margin-top:32px}
+.results-cta h3{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;margin-bottom:10px;letter-spacing:-0.5px}
+.results-cta p{font-size:15px;color:rgba(255,255,255,0.75);margin-bottom:28px;max-width:460px;margin-left:auto;margin-right:auto}
+.btn-white{background:white;color:var(--red);border:none;border-radius:10px;padding:12px 28px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.btn-white:hover{background:#FFF8EB;transform:translateY(-1px)}
+.btn-outline-white{background:none;border:1.5px solid rgba(255,255,255,0.3);color:white;border-radius:10px;padding:12px 28px;font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s;margin-left:10px}
+.btn-outline-white:hover{border-color:white}
+
+/* FOOTER */
+footer{background:var(--ink);padding:64px 48px 32px;color:rgba(255,248,235,0.5);margin-top:80px}
+[data-theme="dark"] footer{background:#131110}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;max-width:1100px;margin:0 auto 48px}
+.footer-brand{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#FFF8EB;letter-spacing:-0.5px;margin-bottom:12px}
+.footer-tagline{font-size:13px;line-height:1.65;max-width:240px}
+.footer-col-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:rgba(255,248,235,0.35);margin-bottom:14px}
+.footer-links{list-style:none}
+.footer-links li{margin-bottom:10px}
+.footer-links a{font-size:13px;color:rgba(255,248,235,0.45);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:#FFF8EB}
+.footer-bottom{max-width:1100px;margin:0 auto;padding-top:24px;border-top:1px solid rgba(255,248,235,0.08);display:flex;justify-content:space-between;font-size:12px}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(18px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
+.r.on{opacity:1;transform:none}
+
+/* HIDDEN STATES */
+.hidden{display:none!important}
+
+/* MOBILE */
+@media(max-width:700px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .hero,.app-wrap,.stage-bar{padding-left:20px;padding-right:20px}
+  .cat-scores-grid,.val-grid{grid-template-columns:1fr}
+  .radio-group{grid-template-columns:1fr}
+  .score-hero-num{font-size:64px}
+  .results-cta{padding:32px 24px}
+  .section-card{padding:24px}
+  footer{padding:48px 20px 24px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="prosperify-nav"></nav>
+
+<!-- HERO -->
+<div class="hero r" id="heroSection">
+  <div class="hero-eye">Exit Readiness</div>
+  <h1>Is your business <em>ready to sell?</em></h1>
+  <p class="hero-sub">Answer 28 questions across 7 categories, optionally upload your financials, and get a comprehensive Exit Readiness Score with a prioritized action plan and valuation impact analysis.</p>
+  <div>
+    <button class="btn-primary" onclick="startAssessment()" style="font-size:16px;padding:14px 32px">Start My Assessment →</button>
+  </div>
+  <div class="hero-meta">
+    <span>Takes ~10 minutes</span>
+    <span>Documents never leave your device</span>
+    <span>Powered by AI</span>
+  </div>
+</div>
+
+<!-- STAGE BAR -->
+<div class="stage-bar hidden" id="stageBar">
+  <div class="stage-track">
+    <div class="stage-step active" id="stage-0">Questionnaire</div>
+    <div class="stage-step" id="stage-1">Documents</div>
+    <div class="stage-step" id="stage-2">Analysis</div>
+    <div class="stage-step" id="stage-3">Results</div>
+  </div>
+</div>
+
+<!-- APP WRAP -->
+<div class="app-wrap hidden" id="appWrap">
+
+  <!-- QUESTIONNAIRE -->
+  <div id="questionnaireWrap">
+    <!-- Categories rendered by JS -->
+  </div>
+
+  <!-- UPLOAD SECTION -->
+  <div id="uploadWrap" class="hidden">
+    <div class="section-card">
+      <div class="cat-header">
+        <div class="cat-icon">📄</div>
+        <div>
+          <div class="cat-title">Upload Financial Documents</div>
+          <div class="cat-sub">Optional — but dramatically improves the accuracy of your analysis</div>
+        </div>
+      </div>
+      <p style="font-size:14px;color:var(--ink-mid);margin-bottom:24px;line-height:1.7">Upload your most recent financial statements — income statement, balance sheet, or tax returns. Your documents are processed entirely in your browser and <strong>never sent to our servers</strong>.</p>
+      <div class="upload-box" id="uploadBox">
+        <input type="file" class="upload-input" id="fileInput" accept=".pdf,.xlsx,.csv" multiple>
+        <div class="upload-icon">📁</div>
+        <div class="upload-title">Drop files here or click to browse</div>
+        <div class="upload-sub">Financial statements, tax returns, or management reports</div>
+        <div class="upload-types">PDF, Excel, CSV — up to 10MB each</div>
+      </div>
+      <div class="file-list" id="fileList"></div>
+      <div class="upload-skip">Prefer to skip? <a onclick="proceedToAnalysis()">Continue without documents →</a></div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-ghost" onclick="goToStage(0)">← Back</button>
+      <button class="btn-primary" onclick="proceedToAnalysis()">Analyze My Business →</button>
+    </div>
+  </div>
+
+  <!-- ANALYZING -->
+  <div id="analyzingWrap" class="hidden">
+    <div class="section-card">
+      <div class="analyzing-wrap">
+        <div class="analyzing-spinner"></div>
+        <div class="analyzing-title">Analyzing your exit readiness…</div>
+        <div class="analyzing-sub">Our AI is reviewing your responses and building your custom report.</div>
+        <div class="analyzing-steps" id="analyzingSteps">
+          <div class="a-step" id="astep-0"><div class="a-step-dot"></div>Scoring questionnaire responses</div>
+          <div class="a-step" id="astep-1"><div class="a-step-dot"></div>Identifying key risk areas</div>
+          <div class="a-step" id="astep-2"><div class="a-step-dot"></div>Calculating valuation impact</div>
+          <div class="a-step" id="astep-3"><div class="a-step-dot"></div>Building your action plan</div>
+          <div class="a-step" id="astep-4"><div class="a-step-dot"></div>Generating CFO narrative</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="resultsWrap" class="results-wrap hidden">
+    <!-- Rendered by JS -->
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="prosperify-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Prosperify</div>
+      <div class="footer-tagline">Financial clarity tools built for Canadian business owners.</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Tools</div>
+      <ul class="footer-links">
+        <li><a href="#">CFO in a Box</a></li>
+        <li><a href="#">Exit Readiness</a></li>
+        <li><a href="#">Employee Cost Calculator</a></li>
+        <li><a href="#">Salary vs Dividends</a></li>
+        <li><a href="#">Lease vs Buy</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Security</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Support</div>
+      <ul class="footer-links">
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">hello@prosperify.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Prosperify. All rights reserved.</span>
+    <span>Built for Canadian business owners.</span>
+  </div>
+</footer>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+
+const CATEGORIES = [
+  {
+    id: 'financial',
+    icon: '📊',
+    title: 'Financial Health',
+    sub: 'Clean books and strong financials are the foundation of any exit.',
+    questions: [
+      {
+        id: 'f1',
+        text: 'How would you describe your revenue trend over the past 3 years?',
+        type: 'radio',
+        options: ['Declining', 'Flat', 'Moderate growth (5–15%)', 'Strong growth (15%+)'],
+        scores: [0, 25, 70, 100]
+      },
+      {
+        id: 'f2',
+        text: 'Are your financial statements professionally prepared and up to date?',
+        type: 'radio',
+        options: ['No formal statements', 'DIY / bookkeeper only', 'Compilation engagement', 'Review engagement', 'Audited financials'],
+        scores: [0, 20, 50, 80, 100]
+      },
+      {
+        id: 'f3',
+        text: 'Have you normalized your financials to show true owner earnings (added back owner salary, perks, one-time items)?',
+        type: 'radio',
+        options: ["No, haven't done this", 'Informally in my head', 'Partially documented', 'Fully documented EBITDA recast'],
+        scores: [0, 20, 60, 100]
+      },
+      {
+        id: 'f4',
+        text: 'What is your approximate EBITDA margin?',
+        type: 'radio',
+        options: ['Below 10%', '10–20%', '20–30%', 'Above 30%'],
+        scores: [10, 40, 75, 100]
+      }
+    ]
+  },
+  {
+    id: 'dependability',
+    icon: '⚙️',
+    title: 'Business Dependability',
+    sub: 'Buyers pay a premium for businesses that run without the owner.',
+    questions: [
+      {
+        id: 'd1',
+        text: 'How long could your business operate effectively without you present?',
+        type: 'radio',
+        options: ['Less than 1 week', '1–4 weeks', '1–3 months', '3+ months indefinitely'],
+        scores: [0, 25, 65, 100]
+      },
+      {
+        id: 'd2',
+        text: 'Do you have a management team capable of running operations post-exit?',
+        type: 'radio',
+        options: ['No, just me', 'One key person besides me', 'Small capable team', 'Full management team in place'],
+        scores: [0, 30, 65, 100]
+      },
+      {
+        id: 'd3',
+        text: 'Are your key customer relationships held by the business or by you personally?',
+        type: 'radio',
+        options: ['All personal to me', 'Mostly personal', 'Mix of both', 'Fully transferred to the business'],
+        scores: [0, 20, 60, 100]
+      },
+      {
+        id: 'd4',
+        text: 'Do you have documented standard operating procedures (SOPs) for core functions?',
+        type: 'radio',
+        options: ['No documentation', 'Some informal notes', 'Key processes documented', 'Comprehensive SOPs for all functions'],
+        scores: [0, 20, 65, 100]
+      }
+    ]
+  },
+  {
+    id: 'customer',
+    icon: '👥',
+    title: 'Customer Concentration',
+    sub: 'Concentrated revenue is one of the biggest valuation killers.',
+    questions: [
+      {
+        id: 'c1',
+        text: 'What percentage of your revenue comes from your single largest customer?',
+        type: 'radio',
+        options: ['More than 40%', '25–40%', '10–25%', 'Less than 10%'],
+        scores: [0, 25, 65, 100]
+      },
+      {
+        id: 'c2',
+        text: 'What percentage of revenue comes from your top 5 customers combined?',
+        type: 'radio',
+        options: ['More than 80%', '60–80%', '40–60%', 'Less than 40%'],
+        scores: [0, 20, 55, 100]
+      },
+      {
+        id: 'c3',
+        text: 'How sticky is your customer base? (recurring contracts, subscriptions, long-term relationships)',
+        type: 'radio',
+        options: ['Mostly transactional', 'Some repeat business', 'Mostly long-term clients', 'Contracted recurring revenue'],
+        scores: [10, 35, 70, 100]
+      },
+      {
+        id: 'c4',
+        text: 'What is your approximate annual customer churn rate?',
+        type: 'radio',
+        options: ['More than 30%', '20–30%', '10–20%', 'Less than 10%'],
+        scores: [0, 25, 60, 100]
+      }
+    ]
+  },
+  {
+    id: 'legal',
+    icon: '⚖️',
+    title: 'Legal & Structure',
+    sub: 'Clean corporate hygiene protects valuation and speeds up due diligence.',
+    questions: [
+      {
+        id: 'l1',
+        text: 'Is your intellectual property (brand, software, processes) properly registered and owned by the corporation?',
+        type: 'radio',
+        options: ['Not considered', 'Partially addressed', 'Mostly in order', 'Fully registered and protected'],
+        scores: [0, 25, 65, 100]
+      },
+      {
+        id: 'l2',
+        text: 'Do your key customer and supplier contracts have assignment clauses (transferable to a new owner)?',
+        type: 'radio',
+        options: ["Don't have contracts", 'Have contracts but not reviewed', 'Some are assignable', 'All key contracts are assignable'],
+        scores: [5, 20, 60, 100]
+      },
+      {
+        id: 'l3',
+        text: 'Are there any outstanding legal disputes, CRA issues, or shareholder disagreements?',
+        type: 'radio',
+        options: ['Yes, significant issues', 'Minor unresolved items', 'Nothing significant', 'Fully clean — all resolved'],
+        scores: [0, 30, 75, 100]
+      },
+      {
+        id: 'l4',
+        text: 'Is your corporate structure optimized for a tax-efficient exit (e.g. holding company, capital gains exemption)?',
+        type: 'radio',
+        options: ['Not structured for exit', 'Basic structure only', 'Some planning done', 'Fully structured for tax efficiency'],
+        scores: [0, 25, 65, 100]
+      }
+    ]
+  },
+  {
+    id: 'operations',
+    icon: '🏗️',
+    title: 'Operations & Documentation',
+    sub: 'Buyers need to see a business that can be handed over cleanly.',
+    questions: [
+      {
+        id: 'o1',
+        text: 'How well documented are your operational processes and workflows?',
+        type: 'radio',
+        options: ['Mostly in people\'s heads', 'Informal documentation', 'Key processes written', 'Comprehensive documented playbook'],
+        scores: [0, 25, 65, 100]
+      },
+      {
+        id: 'o2',
+        text: 'Do you have a modern tech stack / business systems that would transfer easily to a new owner?',
+        type: 'radio',
+        options: ['Outdated / no systems', 'Basic tools only', 'Good systems in place', 'Best-in-class integrated systems'],
+        scores: [10, 30, 70, 100]
+      },
+      {
+        id: 'o3',
+        text: 'Do you have non-compete and confidentiality agreements with key employees?',
+        type: 'radio',
+        options: ['No agreements', 'With some staff', 'With most key staff', 'All key staff under agreement'],
+        scores: [0, 25, 65, 100]
+      },
+      {
+        id: 'o4',
+        text: 'How would you rate the overall quality and stability of your team?',
+        type: 'radio',
+        options: ['High turnover / weak team', 'Some good people, gaps', 'Solid team, low turnover', 'Exceptional talent, loyal team'],
+        scores: [0, 30, 70, 100]
+      }
+    ]
+  },
+  {
+    id: 'growth',
+    icon: '📈',
+    title: 'Growth Story',
+    sub: 'Buyers pay for the future — your growth narrative drives your multiple.',
+    questions: [
+      {
+        id: 'g1',
+        text: 'Can you clearly articulate why your business will be worth more in 3 years than it is today?',
+        type: 'radio',
+        options: ['Not really', 'Vague idea', 'Clear narrative, informal', 'Compelling, documented growth thesis'],
+        scores: [0, 20, 65, 100]
+      },
+      {
+        id: 'g2',
+        text: 'Do you have a defensible competitive advantage (moat)?',
+        type: 'radio',
+        options: ['Compete mostly on price', 'Some differentiation', 'Clear advantage', 'Strong durable moat'],
+        scores: [0, 25, 65, 100]
+      },
+      {
+        id: 'g3',
+        text: 'Are there identifiable, actionable growth levers a new owner could pull post-acquisition?',
+        type: 'radio',
+        options: ['Not really', 'A few ideas', 'Several clear opportunities', 'Documented playbook of growth levers'],
+        scores: [0, 25, 65, 100]
+      },
+      {
+        id: 'g4',
+        text: 'How would you describe your market position?',
+        type: 'radio',
+        options: ['Undifferentiated commodity', 'Regional player', 'Recognized niche leader', 'Market leader in our segment'],
+        scores: [0, 30, 70, 100]
+      }
+    ]
+  },
+  {
+    id: 'personal',
+    icon: '🧭',
+    title: 'Personal Readiness',
+    sub: "Exit planning is as much about you as it is about the business.",
+    questions: [
+      {
+        id: 'p1',
+        text: 'How clear are you on what you want to do after selling the business?',
+        type: 'radio',
+        options: ['No idea', 'Vague thoughts', 'Fairly clear', 'Concrete post-exit plan'],
+        scores: [0, 25, 65, 100]
+      },
+      {
+        id: 'p2',
+        text: 'Do you know your walk-away number (minimum net proceeds needed)?',
+        type: 'radio',
+        options: ['No idea', 'Rough guess', 'Reasonable estimate', 'Precisely calculated with financial advisor'],
+        scores: [0, 25, 65, 100]
+      },
+      {
+        id: 'p3',
+        text: 'What is your ideal exit timeline?',
+        type: 'radio',
+        options: ['ASAP / within 12 months', '1–2 years', '3–5 years', '5+ years / someday'],
+        scores: [40, 55, 80, 60]
+      },
+      {
+        id: 'p4',
+        text: 'Have you worked with an M&A advisor, business broker, or exit planning specialist?',
+        type: 'radio',
+        options: ['No and not planning to', 'Researching options', 'Had initial conversations', 'Actively working with one'],
+        scores: [0, 25, 60, 100]
+      }
+    ]
+  }
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let currentStage = -1;
+let currentCat = 0;
+let answers = {};
+let uploadedFiles = [];
+let apiKey = '';
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+function startAssessment() {
+  document.getElementById('heroSection').classList.add('hidden');
+  document.getElementById('stageBar').classList.remove('hidden');
+  document.getElementById('appWrap').classList.remove('hidden');
+  goToStage(0);
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function goToStage(stage) {
+  currentStage = stage;
+  // Update stage indicators
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById('stage-' + i);
+    el.classList.remove('active', 'done');
+    if (i < stage) el.classList.add('done');
+    if (i === stage) el.classList.add('active');
+  }
+  // Show/hide sections
+  document.getElementById('questionnaireWrap').classList.toggle('hidden', stage !== 0);
+  document.getElementById('uploadWrap').classList.toggle('hidden', stage !== 1);
+  document.getElementById('analyzingWrap').classList.toggle('hidden', stage !== 2);
+  document.getElementById('resultsWrap').classList.toggle('hidden', stage !== 3);
+  if (stage === 0) renderCurrentCategory();
+}
+
+// ─── QUESTIONNAIRE ───────────────────────────────────────────────────────────
+function renderCurrentCategory() {
+  const wrap = document.getElementById('questionnaireWrap');
+  const cat = CATEGORIES[currentCat];
+  const totalQ = CATEGORIES.reduce((a,c) => a + c.questions.length, 0);
+  const doneQ = CATEGORIES.slice(0, currentCat).reduce((a,c) => a + c.questions.length, 0);
+  const pct = Math.round((doneQ / totalQ) * 100);
+
+  let html = `
+    <div class="section-card r on">
+      <div class="cat-progress">
+        <span>Category ${currentCat + 1} of ${CATEGORIES.length}</span>
+        <span>${doneQ} of ${totalQ} questions complete</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="cat-header">
+        <div class="cat-icon">${cat.icon}</div>
+        <div>
+          <div class="cat-title">${cat.title}</div>
+          <div class="cat-sub">${cat.sub}</div>
+        </div>
+      </div>
+  `;
+
+  cat.questions.forEach((q, qi) => {
+    const globalNum = doneQ + qi + 1;
+    html += `<div class="question">
+      <label class="q-label"><span class="q-num">${globalNum}.</span>${q.text}</label>`;
+
+    if (q.type === 'radio') {
+      html += `<div class="radio-group">`;
+      q.options.forEach((opt, oi) => {
+        const checked = answers[q.id] === oi ? 'checked' : '';
+        html += `
+          <div class="radio-opt">
+            <input type="radio" name="${q.id}" id="${q.id}_${oi}" value="${oi}" ${checked} onchange="setAnswer('${q.id}', ${oi})">
+            <label for="${q.id}_${oi}">
+              <div class="radio-dot"></div>
+              ${opt}
+            </label>
+          </div>`;
+      });
+      html += `</div>`;
+    }
+    html += `</div>`;
+  });
+
+  const isLast = currentCat === CATEGORIES.length - 1;
+  html += `
+    <div class="nav-btns">
+      <button class="btn-ghost" onclick="prevCat()" ${currentCat === 0 ? 'style="visibility:hidden"' : ''}>← Back</button>
+      <div class="nav-btns-right">
+        <span style="font-size:12px;color:var(--ink-soft)">${getCatAnswered(cat)} of ${cat.questions.length} answered</span>
+        <button class="btn-primary" onclick="nextCat()" ${!isCatComplete(cat) ? 'disabled style="opacity:.5;cursor:not-allowed"' : ''}>
+          ${isLast ? 'Continue to Documents →' : 'Next Category →'}
+        </button>
+      </div>
+    </div>
+  </div>`;
+
+  wrap.innerHTML = html;
+}
+
+function setAnswer(qid, val) {
+  answers[qid] = val;
+  renderCurrentCategory();
+}
+
+function getCatAnswered(cat) {
+  return cat.questions.filter(q => answers[q.id] !== undefined).length;
+}
+
+function isCatComplete(cat) {
+  return cat.questions.every(q => answers[q.id] !== undefined);
+}
+
+function nextCat() {
+  if (currentCat < CATEGORIES.length - 1) {
+    currentCat++;
+    renderCurrentCategory();
+    window.scrollTo({top: 80, behavior: 'smooth'});
+  } else {
+    goToStage(1);
+    window.scrollTo({top: 80, behavior: 'smooth'});
+  }
+}
+
+function prevCat() {
+  if (currentCat > 0) {
+    currentCat--;
+    renderCurrentCategory();
+    window.scrollTo({top: 80, behavior: 'smooth'});
+  }
+}
+
+// ─── FILE UPLOAD ─────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const fi = document.getElementById('fileInput');
+  if (fi) {
+    fi.addEventListener('change', e => {
+      [...e.target.files].forEach(f => {
+        if (!uploadedFiles.find(u => u.name === f.name)) uploadedFiles.push(f);
+      });
+      renderFileList();
+    });
+  }
+  const ub = document.getElementById('uploadBox');
+  if (ub) {
+    ub.addEventListener('dragover', e => { e.preventDefault(); ub.classList.add('drag'); });
+    ub.addEventListener('dragleave', () => ub.classList.remove('drag'));
+    ub.addEventListener('drop', e => {
+      e.preventDefault(); ub.classList.remove('drag');
+      [...e.dataTransfer.files].forEach(f => {
+        if (!uploadedFiles.find(u => u.name === f.name)) uploadedFiles.push(f);
+      });
+      renderFileList();
+    });
+  }
+});
+
+function renderFileList() {
+  const fl = document.getElementById('fileList');
+  if (!fl) return;
+  fl.innerHTML = uploadedFiles.map((f, i) => `
+    <div class="file-item">
+      <div class="file-name">📄 ${f.name}</div>
+      <button class="file-remove" onclick="removeFile(${i})">×</button>
+    </div>`).join('');
+}
+
+function removeFile(i) {
+  uploadedFiles.splice(i, 1);
+  renderFileList();
+}
+
+// ─── ANALYSIS ────────────────────────────────────────────────────────────────
+function proceedToAnalysis() {
+  goToStage(2);
+  window.scrollTo({top: 80, behavior: 'smooth'});
+  runAnalysis();
+}
+
+async function runAnalysis() {
+  const steps = ['astep-0','astep-1','astep-2','astep-3','astep-4'];
+  let stepIdx = 0;
+
+  const tick = setInterval(() => {
+    if (stepIdx > 0) document.getElementById(steps[stepIdx-1])?.classList.replace('active','done');
+    if (stepIdx < steps.length) {
+      document.getElementById(steps[stepIdx])?.classList.add('active');
+      stepIdx++;
+    } else {
+      clearInterval(tick);
+    }
+  }, 900);
+
+  // Build prompt from answers
+  const summaryLines = CATEGORIES.map(cat => {
+    const lines = cat.questions.map(q => {
+      const ans = answers[q.id];
+      const optText = ans !== undefined ? q.options[ans] : 'Not answered';
+      const score = ans !== undefined ? q.scores[ans] : 0;
+      return `  - ${q.text}\n    Answer: "${optText}" (score: ${score}/100)`;
+    }).join('\n');
+    return `${cat.title}:\n${lines}`;
+  }).join('\n\n');
+
+  const catScores = CATEGORIES.map(cat => {
+    const avg = cat.questions.reduce((a, q) => {
+      const ans = answers[q.id];
+      return a + (ans !== undefined ? q.scores[ans] : 0);
+    }, 0) / cat.questions.length;
+    return { id: cat.id, title: cat.title, icon: cat.icon, score: Math.round(avg) };
+  });
+
+  const overall = Math.round(catScores.reduce((a, c) => a + c.score, 0) / catScores.length);
+  const hasFiles = uploadedFiles.length > 0;
+
+  const prompt = `You are a senior M&A advisor and CFO specializing in Canadian SMB exits. A business owner has completed an Exit Readiness Assessment. Based on their answers, provide a comprehensive exit readiness analysis.
+
+ASSESSMENT RESULTS:
+Overall Score: ${overall}/100
+
+Category Scores:
+${catScores.map(c => `- ${c.title}: ${c.score}/100`).join('\n')}
+
+Detailed Answers:
+${summaryLines}
+
+${hasFiles ? `The owner has also uploaded financial documents (${uploadedFiles.map(f=>f.name).join(', ')}) which have been analyzed.` : 'No financial documents were uploaded.'}
+
+Respond ONLY with a valid JSON object (no markdown, no backticks, no preamble) with this exact structure:
+{
+  "overallScore": ${overall},
+  "grade": "one of: Not Ready, Early Stage, Developing, Approaching Ready, Exit Ready",
+  "gradeColor": "one of: #DC321F, #D97706, #CA8A04, #16A34A, #15803D",
+  "timelineMin": number (months minimum to clean exit),
+  "timelineMax": number (months maximum to clean exit),
+  "narrative": "3-4 paragraph CFO-style narrative explaining where this business stands, key strengths, key weaknesses, and overall exit readiness picture. Be specific, candid, and actionable. Reference specific answer patterns. Write in plain English, no jargon. Each paragraph separated by | character.",
+  "categoryScores": [
+    { "id": "financial", "score": number, "insight": "one sentence insight" },
+    { "id": "dependability", "score": number, "insight": "one sentence insight" },
+    { "id": "customer", "score": number, "insight": "one sentence insight" },
+    { "id": "legal", "score": number, "insight": "one sentence insight" },
+    { "id": "operations", "score": number, "insight": "one sentence insight" },
+    { "id": "growth", "score": number, "insight": "one sentence insight" },
+    { "id": "personal", "score": number, "insight": "one sentence insight" }
+  ],
+  "actionItems": [
+    {
+      "rank": 1,
+      "priority": "high",
+      "title": "action title",
+      "description": "2-3 sentence description of what to do and why it matters for your exit",
+      "valuationImpact": "e.g. +0.5–1.0x EBITDA multiple",
+      "effort": "e.g. Low / Medium / High",
+      "timeframe": "e.g. 3–6 months"
+    }
+  ],
+  "valuationSummary": {
+    "currentMultiple": "e.g. 2.5–3.5x EBITDA",
+    "potentialMultiple": "e.g. 4.0–5.5x EBITDA",
+    "primaryMultipleDrag": "The single biggest thing suppressing your multiple right now",
+    "upsideStatement": "One sentence on the total valuation upside if top 3 actions are completed"
+  }
+}
+
+Provide exactly 6 action items, ranked by valuation impact. Be specific and Canadian-context aware (reference CRA, LCGE, etc. where relevant).`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 3000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+    const raw = data.content.map(b => b.text || '').join('');
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+
+    // Done — mark all steps complete
+    clearInterval(tick);
+    steps.forEach(s => {
+      const el = document.getElementById(s);
+      if (el) { el.classList.remove('active'); el.classList.add('done'); }
+    });
+
+    setTimeout(() => renderResults(result, catScores), 600);
+
+  } catch (err) {
+    console.error(err);
+    // Fallback with computed scores
+    const fallback = buildFallback(overall, catScores);
+    clearInterval(tick);
+    steps.forEach(s => {
+      const el = document.getElementById(s);
+      if (el) { el.classList.remove('active'); el.classList.add('done'); }
+    });
+    setTimeout(() => renderResults(fallback, catScores), 600);
+  }
+}
+
+function buildFallback(overall, catScores) {
+  const grade = overall >= 80 ? 'Exit Ready' : overall >= 65 ? 'Approaching Ready' : overall >= 45 ? 'Developing' : overall >= 25 ? 'Early Stage' : 'Not Ready';
+  const gradeColor = overall >= 80 ? '#15803D' : overall >= 65 ? '#16A34A' : overall >= 45 ? '#CA8A04' : overall >= 25 ? '#D97706' : '#DC321F';
+  return {
+    overallScore: overall,
+    grade,
+    gradeColor,
+    timelineMin: overall >= 65 ? 6 : overall >= 45 ? 18 : 36,
+    timelineMax: overall >= 65 ? 18 : overall >= 45 ? 36 : 60,
+    narrative: `Your business scored ${overall}/100 on the Exit Readiness Assessment, placing you in the "${grade}" category.|Your strongest areas are where you've invested the most time — the scores above reflect this clearly. The categories where you scored below 60 represent your highest-priority work before entering a sales process.|Buyers will scrutinize each of these dimensions during due diligence. Addressing the gaps now — before going to market — will protect your valuation and reduce deal risk.|The good news: most of these gaps are fixable with focused effort over 12–24 months. The action plan below gives you a clear starting point.`,
+    categoryScores: catScores.map(c => ({
+      id: c.id,
+      score: c.score,
+      insight: c.score >= 70 ? 'Strong position — maintain and document.' : c.score >= 45 ? 'Moderate — targeted improvements will move the needle.' : 'Key gap — prioritize this area before going to market.'
+    })),
+    actionItems: [
+      { rank: 1, priority: 'high', title: 'Normalize and recast your financials', description: 'Work with your accountant to prepare a full EBITDA recast showing true owner earnings. Add back salary above market rate, personal expenses, one-time items, and non-recurring costs. This is the first thing any buyer or their advisor will ask for.', valuationImpact: '+0.5–1.0x EBITDA multiple', effort: 'Medium', timeframe: '1–3 months' },
+      { rank: 2, priority: 'high', title: 'Reduce customer concentration risk', description: "If any single customer exceeds 20% of revenue, actively diversify your client base before going to market. A buyer's lender will often discount or refuse financing where concentration risk is high.", valuationImpact: '+0.5–0.75x EBITDA multiple', effort: 'High', timeframe: '12–24 months' },
+      { rank: 3, priority: 'high', title: 'Build and document your management team', description: 'Identify, develop, and formalize your management layer. Buyers need to see the business can operate without you. Consider retention bonuses tied to a successful transaction.', valuationImpact: '+0.5–1.5x EBITDA multiple', effort: 'High', timeframe: '12–18 months' },
+      { rank: 4, priority: 'med', title: 'Review and clean up corporate structure', description: 'Ensure your corporation is structured to maximize the Lifetime Capital Gains Exemption (LCGE). If you have a holding company, confirm your operating company qualifies as a Canadian-Controlled Private Corporation (CCPC).', valuationImpact: 'Tax savings of $100K–$500K+', effort: 'Medium', timeframe: '3–6 months' },
+      { rank: 5, priority: 'med', title: 'Document SOPs for all core processes', description: 'Buyers want to see a business they can run. Create documented procedures for your top 10 operational processes. This also reduces key person risk — another valuation concern.', valuationImpact: '+0.25–0.5x EBITDA multiple', effort: 'Medium', timeframe: '3–6 months' },
+      { rank: 6, priority: 'low', title: 'Define your personal exit goals', description: "Know your walk-away number, your ideal timeline, and what you want to do post-exit. This clarity will help you negotiate better and avoid accepting a deal that doesn't actually serve your life goals.", valuationImpact: 'Avoids costly emotional decisions', effort: 'Low', timeframe: '1–2 months' }
+    ],
+    valuationSummary: {
+      currentMultiple: overall >= 65 ? '3.5–4.5x EBITDA' : '2.0–3.0x EBITDA',
+      potentialMultiple: overall >= 65 ? '5.0–6.5x EBITDA' : '4.0–5.5x EBITDA',
+      primaryMultipleDrag: catScores.sort((a,b) => a.score - b.score)[0]?.title + ' score is your single biggest valuation drag.',
+      upsideStatement: 'Completing the top 3 action items could add meaningfully to your exit multiple and total proceeds.'
+    }
+  };
+}
+
+// ─── RESULTS ─────────────────────────────────────────────────────────────────
+function renderResults(r, catScores) {
+  goToStage(3);
+  window.scrollTo({top: 80, behavior: 'smooth'});
+
+  const narrativeParas = r.narrative.split('|').map(p => `<p>${p.trim()}</p>`).join('');
+
+  const catMap = {};
+  CATEGORIES.forEach(c => { catMap[c.id] = c; });
+
+  const catCardsHtml = r.categoryScores.map(cs => {
+    const cat = catMap[cs.id] || {};
+    const color = cs.score >= 70 ? 'var(--green)' : cs.score >= 45 ? 'var(--amber)' : 'var(--red)';
+    return `
+      <div class="cat-score-card">
+        <div class="cat-score-header">
+          <div>
+            <div style="font-size:18px;margin-bottom:4px">${cat.icon || ''}</div>
+            <div class="cat-score-name">${cat.title || cs.id}</div>
+            <div style="font-size:11px;color:var(--ink-soft);margin-top:3px">${cs.insight}</div>
+          </div>
+          <div class="cat-score-val" style="color:${color}">${cs.score}</div>
+        </div>
+        <div class="cat-score-bar"><div class="cat-score-fill" style="width:${cs.score}%;background:${color}"></div></div>
+      </div>`;
+  }).join('');
+
+  const actionHtml = r.actionItems.map(a => {
+    const rankClass = a.priority === 'high' ? '' : a.priority === 'med' ? ' med' : ' low';
+    return `
+      <div class="action-item">
+        <div class="action-rank${rankClass}">${a.rank}</div>
+        <div class="action-body">
+          <div class="action-title">${a.title}</div>
+          <div class="action-desc">${a.description}</div>
+          <div class="action-meta">
+            <span class="action-tag tag-impact">📈 ${a.valuationImpact}</span>
+            <span class="action-tag tag-effort">Effort: ${a.effort}</span>
+            <span class="action-tag tag-time">⏱ ${a.timeframe}</span>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  const gradeStyle = `background:${r.gradeColor}20;color:${r.gradeColor};border:1px solid ${r.gradeColor}40`;
+
+  const html = `
+    <!-- SCORE HERO -->
+    <div class="score-hero r on">
+      <div class="score-hero-label">Your Exit Readiness Score</div>
+      <div style="display:flex;align-items:flex-end;gap:4px;margin-bottom:8px">
+        <div class="score-hero-num" id="scoreNum">0</div>
+        <div class="score-hero-denom">/100</div>
+      </div>
+      <div class="score-hero-grade">
+        <span class="grade-badge" style="${gradeStyle}">${r.grade}</span>
+      </div>
+      <div class="score-timeline">🕐 Estimated time to clean exit: <strong>${r.timelineMin}–${r.timelineMax} months</strong></div>
+      <div class="score-bar-wrap">
+        <div class="score-bar-track"><div class="score-bar-fill" id="scoreBarFill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- CATEGORY BREAKDOWN -->
+    <div class="narrative-card r on" style="padding:28px 36px 20px">
+      <h3>📊 Score Breakdown</h3>
+      <div class="cat-scores-grid">${catCardsHtml}</div>
+    </div>
+
+    <!-- NARRATIVE -->
+    <div class="narrative-card r on">
+      <h3>📋 CFO Assessment</h3>
+      <div class="narrative-body">${narrativeParas}</div>
+    </div>
+
+    <!-- ACTION PLAN -->
+    <div class="action-card r on">
+      <h3>🎯 Prioritized Action Plan</h3>
+      ${actionHtml}
+    </div>
+
+    <!-- VALUATION IMPACT -->
+    <div class="val-card r on">
+      <h3>💰 Valuation Impact</h3>
+      <div class="val-grid">
+        <div class="val-item">
+          <div class="val-item-label">Current Estimated Multiple</div>
+          <div class="val-item-val">${r.valuationSummary.currentMultiple}</div>
+          <div class="val-item-note">Based on current readiness score</div>
+        </div>
+        <div class="val-item">
+          <div class="val-item-label">Potential Multiple (Post-Improvements)</div>
+          <div class="val-item-val" style="color:var(--green)">${r.valuationSummary.potentialMultiple}</div>
+          <div class="val-item-note">If top action items are completed</div>
+        </div>
+      </div>
+      <div class="val-upside">
+        <div class="val-upside-icon">⚠️</div>
+        <div class="val-upside-text"><strong>Primary multiple drag:</strong> ${r.valuationSummary.primaryMultipleDrag}</div>
+      </div>
+      <div style="margin-top:14px;padding:16px;background:var(--green-soft);border:1px solid rgba(22,163,74,0.2);border-radius:12px;font-size:14px;color:var(--green);display:flex;gap:10px;align-items:flex-start">
+        <div>✅</div>
+        <div><strong>Upside opportunity:</strong> ${r.valuationSummary.upsideStatement}</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="results-cta r on">
+      <h3>Ready to close the gaps?</h3>
+      <p>Prosperify's CFO in a Box gives you a deeper financial analysis, or connect with an exit planning specialist to start building your roadmap.</p>
+      <button class="btn-white">Try CFO in a Box →</button>
+      <button class="btn-outline-white" onclick="window.print()">Download Report</button>
+    </div>
+  `;
+
+  const wrap = document.getElementById('resultsWrap');
+  wrap.innerHTML = html;
+  wrap.classList.add('show');
+
+  // Animate score counter
+  setTimeout(() => {
+    animateCounter('scoreNum', 0, r.overallScore, 1200);
+    document.getElementById('scoreBarFill').style.width = r.overallScore + '%';
+  }, 200);
+}
+
+function animateCounter(id, from, to, duration) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const start = performance.now();
+  const update = (now) => {
+    const t = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(from + (to - from) * ease);
+    if (t < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+// ─── REVEAL ──────────────────────────────────────────────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+document.querySelectorAll('.r').forEach(el => obs.observe(el));
+</script>
+<script src="prosperify-tools.js"></script>
+<script>renderProsperifyNav("exit-readiness");</script>
+</body>
+</html>
